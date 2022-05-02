@@ -8,7 +8,9 @@ class GameScene extends Phaser.Scene{
     }
 
     create(){
-
+        game.scale.pageAlignHorizontally = true;
+        game.scale.pageAlignVertically = true;
+        game.scale.refresh();
     }
 
     update(){
