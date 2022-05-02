@@ -3,14 +3,21 @@
 	<head>
 		<link rel="stylesheet" href="./css/style.css">
 		<script src="./js/loader.js"></script>
-		<title> TrabajoGrupal - Habeilas Hailas </title>
+		<title> TrabajoGrupal - Habelas Hailas </title>
 	</head>
 	<body>
-		<p class="menu-object" id="title">Habeillas Hailas</p>
-		<button class="menu-object" onclick=""> Start game </button>
-		<button class="menu-object" onclick="">	Load Game </button>
-		<button class="menu-object" onclick=""> Options </button>
-		<button class="menu-object" onclick=""> Exit </button>
+		<div id="options_id">
+			<p class="menu-object" id="title">Habelas Hailas</p>
+
+			
+
+			<button class="menu-object" v-on:click="start"> Start game </button>
+			<button class="menu-object" v-on:click="load">	Load Game </button>
+			<button class="menu-object" v-on:click="options"> Options </button>
+			<button class="menu-object" v-on:click=""> Exit </button>
+		</div>
 	</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+	<script src="./js/menuController.js"></script>
 </html>    
 
