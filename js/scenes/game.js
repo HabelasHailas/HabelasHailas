@@ -4,6 +4,9 @@ class GameScene extends Phaser.Scene{
     }
 
     preload(){
+        this.load.spritesheet('character','../../sprites/characters/player.png',
+        {frameWidth: 48, frameHeight: 48});
+       
 
     }
 
@@ -11,6 +14,9 @@ class GameScene extends Phaser.Scene{
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.refresh();
+
+        this.player = this.physics.add.sprite(100,450,'character').setScale(3).refreshBody();
+        this.player.setCollideWorldBounds(true);
     }
 
     update(){
