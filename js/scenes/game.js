@@ -8,6 +8,7 @@ class GameScene extends Phaser.Scene{
     }
 
     create(){
+        // Centrar el juego en la página
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.refresh();
