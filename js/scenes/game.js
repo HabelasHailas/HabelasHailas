@@ -65,6 +65,7 @@ class GameScene extends Phaser.Scene{
         // https://www.geogebra.org/calculator/qbbr4vb7
 
         if (this.spacebar.isDown) {
+            // Ataque
             this.player.anims.play('attack',true);
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
@@ -129,6 +130,7 @@ class GameScene extends Phaser.Scene{
             this.player.setVelocityX(113);
             this.player.setVelocityY(113);
             this.player.anims.play('right',true);
+            this.player.flipX = false;
         }
         else { //mirar que no se pulse ninguna de las 4 teclas direccionales
             // if(this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp && this.cursors.left.isUp) 
