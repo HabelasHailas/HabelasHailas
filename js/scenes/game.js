@@ -1,3 +1,5 @@
+"use strict";
+
 class GameScene extends Phaser.Scene{
     constructor(){
         super('GameScene');
@@ -8,7 +10,7 @@ class GameScene extends Phaser.Scene{
     preload(){
         this.load.spritesheet('character','../../sprites/characters/player.png',
         {frameWidth: 48, frameHeight: 48});
-       
+       this.load.spritesheet
 
     }
 
@@ -48,6 +50,7 @@ class GameScene extends Phaser.Scene{
             key:'attack',
             frames: this.anims.generateFrameNumbers('character',{start: 12, end: 15}),
             frameRate: 7
+            
         });
         this.anims.create({
             key:'death',
@@ -57,7 +60,9 @@ class GameScene extends Phaser.Scene{
         //#endregion
       
     }
-
+    playAnim(anim){
+        this.player.anims.play(anim,true);
+    }
     updatePlayer(){
         //#region INPUT TECLADO 
 
@@ -66,7 +71,7 @@ class GameScene extends Phaser.Scene{
 
         if (this.spacebar.isDown) {
             // Ataque
-            this.player.anims.play('attack',true);
+            this.playAnim("attack");
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
         }
