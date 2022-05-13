@@ -32,6 +32,7 @@ class GameScene extends Phaser.Scene{
         
         //#region enemy physics
         this.enemy = this.physics.add.sprite(100,450,'enemyIdle').setScale(1.5).refreshBody();
+        
         this.enemy.setCollideWorldBounds(true);
         //#endregion
 
@@ -73,8 +74,7 @@ class GameScene extends Phaser.Scene{
         //     frameRate: 5
         // });
         //#endregion
-        
-        
+                
         //#region animaciones enemigo
        this.anims.create({
             key:'enemyIdle',
@@ -157,10 +157,11 @@ class GameScene extends Phaser.Scene{
             this.player.anims.play('idle', true);
         }
     }
-
     updateEnemy(){
         this.enemy.anims.play('enemyIdle',true);
     }
+
+    
     update(){
 
         this.updatePlayer();
