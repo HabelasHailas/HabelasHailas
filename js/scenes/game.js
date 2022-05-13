@@ -8,9 +8,9 @@ class GameScene extends Phaser.Scene{
     }
 
     preload(){
-        this.load.spritesheet('character','../../sprites/characters/player.png',
-        {frameWidth: 48, frameHeight: 48});
-       this.load.spritesheet
+        this.load.spritesheet('characterIdle','../../sprites/character/B_witch_idle.png', {frameWidth: 32, frameHeight: 48});
+        this.load.spritesheet('characterWalk','../../sprites/character/B_witch_run.png', {frameWidth: 32, frameHeight: 48});
+        // this.load.spritesheet
 
     }
 
@@ -20,7 +20,7 @@ class GameScene extends Phaser.Scene{
         game.scale.pageAlignVertically = true;
         game.scale.refresh();
 
-        this.player = this.physics.add.sprite(100,450,'character').setScale(3).refreshBody();
+        this.player = this.physics.add.sprite(100,450,'characterIdle').setScale(3).refreshBody();
         this.player.setCollideWorldBounds(true);
 
         //captura entrada del teclado
@@ -42,7 +42,7 @@ class GameScene extends Phaser.Scene{
         });
         this.anims.create({
             key:'idle',
-            frames: this.anims.generateFrameNumbers('character',{start: 0, end: 5}),
+            frames: this.anims.generateFrameNumbers('characterIdle',{start: 0, end: 5}),
             frameRate: 7,
             repeat: -1
         });
@@ -60,12 +60,10 @@ class GameScene extends Phaser.Scene{
         //#endregion
       
     }
-    playAnim(anim){
-        this.player.anims.play(anim,true);
-    }
+    // playAnim(anim){
+    //     this.player.anims.play(anim,true);
+    // }
     updatePlayer(){
-        //#region INPUT TECLADO 
-
         // Mates detrás de los numeros:
         // https://www.geogebra.org/calculator/qbbr4vb7
 
