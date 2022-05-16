@@ -1,6 +1,6 @@
 "use strict";
 
-class GameEnemies extends Phaser.Scene{
+class Enemies extends Phaser.Scene{
     constructor(){
         super('GameEnemies');
         this.player = null;
