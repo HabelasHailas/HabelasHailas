@@ -16,9 +16,9 @@ class Player {
         this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
         this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack_projectile.png', { frameWidth: 48, frameHeight: 48 });
     }
-    createPlayer() {
-        this.player = this.context.physics.add.sprite(100, 450, 'characterIdle').setScale(2).refreshBody();
-        // this.player.setBox(100);
+    createPlayer(){
+        this.player = this.context.physics.add.sprite(100,450,'characterIdle').setScale(2).refreshBody();
+        this.player.body.setSize(18,40); //tamaño caja colision
         this.player.setCollideWorldBounds(true);
 
         this.context.key_a = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -65,22 +65,19 @@ class Player {
         //#endregion
 
     }
-    updatePlayer() {
+    attack(){
+        this.player.anims.play('attack',true);
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
+        this.player.body.setOffset(15,0);
+    }
+    updatePlayer(){        
         // Mates detrás de los numeros:
         // https://www.geogebra.org/calculator/qbbr4vb7
 
         if (this.context.key_e.isDown) {
             // Ataque
-            this.player.anims.play('attack', true);
-            this.player.setVelocityX(0);
-            this.player.setVelocityY(0);
-            console.log(this.player.body.getOffset())
-        }
-        else if (this.context.key_f.isDown) {
-            // Proyectil ataque
-            this.player.anims.play('attackProj', true);
-            this.player.setVelocityX(0);
-            this.player.setVelocityY(0);
+            this.attack();
         }
         else if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Derecha
@@ -140,6 +137,8 @@ class Player {
             // if(this.context.cursors.right.isUp && this.context.cursors.up.isUp && this.context.cursors.down.isUp && this.context.cursors.left.isUp) 
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
+            this.player.body.setOffset(6,3);
+
             this.player.anims.play('idle', true);
         }
     }
