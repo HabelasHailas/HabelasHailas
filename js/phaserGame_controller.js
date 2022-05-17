@@ -16,3 +16,6 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+
+ // Centrar el juego en la página
+    
