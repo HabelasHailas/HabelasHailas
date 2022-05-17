@@ -18,7 +18,6 @@ class GameScene extends Phaser.Scene{
         game.scale.pageAlignVertically = true;
         game.scale.refresh(); 
         // this.player = this.add.player(100,100,'player')
-        console.log(this.player);
     }
 
     create(){   
@@ -46,7 +45,6 @@ class GameScene extends Phaser.Scene{
     
     update(){        
         this.updateEnemy();
-        console.log(this.player);
         this.player.updatePlayer();
     }
 }
