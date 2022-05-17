@@ -25,6 +25,7 @@ class GameScene extends Phaser.Scene{
         this.player.createPlayer();
         //#region enemy physics
         this.enemy = this.physics.add.sprite(100,450,'enemyIdle').setScale(1.5).refreshBody();
+        this.enemy.setPosition(100,100);
         
         this.enemy.setCollideWorldBounds(true);
         //#endregion       

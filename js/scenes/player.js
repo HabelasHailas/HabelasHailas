@@ -13,10 +13,11 @@ class Player{
     preloadPlayer(){
         this.context.load.spritesheet('characterIdle','../../sprites/character/B_witch_idle.png', {frameWidth: 32, frameHeight: 48});
         this.context.load.spritesheet('characterWalk','../../sprites/character/B_witch_run.png', {frameWidth: 32, frameHeight: 48});
-        this.context.load.spritesheet('characterAttack','../../sprites/character/B_witch_attack.png', {frameWidth: 168, frameHeight: 46});
+        this.context.load.spritesheet('characterAttack','../../sprites/character/B_witch_attack2.png', {frameWidth: 48, frameHeight: 48});
     }
     createPlayer(){
         this.player = this.context.physics.add.sprite(100,450,'characterIdle').setScale(2).refreshBody();
+        // this.player.setBox(100);
         this.player.setCollideWorldBounds(true);
 
         this.context.key_a = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
