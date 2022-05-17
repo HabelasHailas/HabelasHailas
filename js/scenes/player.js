@@ -1,6 +1,13 @@
 "use strict"
 
-class Player {
+const STATE_IDLE = 1;
+const STATE_DASH = 2;
+const STATE_ATTACK = 3;
+const STATE_DAMAGE = 4;
+const STATE_DEAD = 5;
+var estat_apuntat = false;
+
+class Player {     
     inAnimation = false;
 
     key_a = null;
@@ -13,10 +20,11 @@ class Player {
         this.context = context;
         this.player = null;
         this.hitPoints = 100;
+        this.actualState = STATE_IDLE;
 
         this.key_k = null;
     }
-    preloadPlayer() {
+    preloadPlayer() {   
         this.context.load.spritesheet('characterIdle', '../../sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
@@ -66,41 +74,56 @@ class Player {
             frames: this.context.anims.generateFrameNumbers('characterDamage', { start: 0, end: 2 }),
             frameRate: 7
         });
-        this.context.anims.create({
-            key: 'death',
-            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
-            frameRate: 5
-        });
+        // this.context.anims.create({
+        //     key: 'death',
+        //     frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
+        //     frameRate: 5
+        // });
         //#endregion
 
     }
     attack() {
+
         this.player.anims.play('attack', true);
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
         this.player.body.setOffset(15, 0);
+        if (!estat_apuntat){
+            this.player.once('completeanimation', () => {
+                this.actualState = 1;
+            });
+        }
+        estat_apuntat = true;
+
     }
     takeDamage() {
         this.hitPoints -= 20;
         this.player.anims.play('damage', true);
 
-        // if (this.hitPoints <= 0) {
-        //     this.player.anims.play('death', false);
-        // }
+        if (this.hitPoints <= 0) {
+            this.actualState = STATE_DEAD;
+        }
+        
+    }
+    dead(){
+        this.player.anims.play('death',false);
     }
     updatePlayer() {
         if (this.key_k.isDown) {
             this.takeDamage();
         }
-
+        
         // Mates detrás de los numeros:
         // https://www.geogebra.org/calculator/qbbr4vb7
-
+        
         else if (this.context.key_e.isDown) {
             // Ataque
             this.attack();
         }
-        else if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
+    }
+    movePlayer() {
+        estat_apuntat = false;
+        if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Derecha
             this.player.setVelocityX(160);
             this.player.setVelocityY(0);
@@ -159,11 +182,27 @@ class Player {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.player.body.setOffset(6, 3);
-
             this.player.anims.play('idle', true);
         }
-
-
+    }
+    
+    updateStates(){
+        switch (this.actualState){
+            case STATE_IDLE:
+                this.movePlayer();
+                break;
+            case STATE_DASH:
+                break;
+            case STATE_ATTACK:
+                this.attack();
+                break;
+            case STATE_DAMAGE:
+                this.takeDamage();
+                break;
+            // case STATE_DEAD:
+            //     this.dead();
+            //     break;
+        }
     }
 }
 
