@@ -8,7 +8,6 @@ const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
 
 class Player {     
-    inAnimation = false;
 
     key_a = null;
     key_s = null;

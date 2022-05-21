@@ -4,15 +4,14 @@ class GameScene extends Phaser.Scene{
     constructor(){
         super('GameScene');
         // this.player = null;
-        this.enemy = null;
         this.player = new Player(this);
+        this.enemy = new Enemies(this);
     }
-    
-   
+       
     preload(){
         // this.load.spritesheet      
         this.player.preloadPlayer();  
-        this.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
+        this.enemy.preloadEnemy();
         
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
@@ -22,30 +21,11 @@ class GameScene extends Phaser.Scene{
 
     create(){   
         this.player.createPlayer();
-        //#region enemy physics
-        this.enemy = this.physics.add.sprite(100,450,'enemyIdle').setScale(1.5).refreshBody();
-        this.enemy.setPosition(100,100);
-        
-        this.enemy.setCollideWorldBounds(true);
-        //#endregion       
-                
-        //#region animaciones enemigo
-       this.anims.create({
-            key:'enemyIdle',
-            frames: this.anims.generateFrameNumbers('enemyIdle',{start: 0, end: 3}),
-            frameRate: 7,
-            repeat: -1
-        });
-        //#endregion
-        
-    }   
-    updateEnemy(){
-        this.enemy.anims.play('enemyIdle',true);
-    }
-    
+        this.enemy.createEnemy();    
+    }  
     update(){        
-        this.updateEnemy();
         this.player.updateStates();
+        this.enemy.updateEnemy();
     }
 }
 
