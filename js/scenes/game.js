@@ -45,7 +45,7 @@ class GameScene extends Phaser.Scene{
     
     update(){        
         this.updateEnemy();
-        this.player.updatePlayer();
+        this.player.updateStates();
     }
 }
 

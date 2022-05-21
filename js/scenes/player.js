@@ -1,11 +1,11 @@
 "use strict"
 
-const STATE_IDLE = 1;
+const STATE_IDLE = 0;
+const STATE_WALK = 1;
 const STATE_DASH = 2;
 const STATE_ATTACK = 3;
 const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
-var estat_apuntat = false;
 
 class Player {     
     inAnimation = false;
@@ -83,46 +83,31 @@ class Player {
 
     }
     attack() {
-
         this.player.anims.play('attack', true);
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
         this.player.body.setOffset(15, 0);
-        if (!estat_apuntat){
-            this.player.once('completeanimation', () => {
-                this.actualState = 1;
-            });
-        }
-        estat_apuntat = true;
+        this.player.once('animationcomplete',() => {
+            this.actualState = STATE_IDLE;
+        });
 
     }
     takeDamage() {
+        this.actualState = STATE_DAMAGE;
         this.hitPoints -= 20;
         this.player.anims.play('damage', true);
 
         if (this.hitPoints <= 0) {
             this.actualState = STATE_DEAD;
-        }
-        
+        }  
+        else{
+            this.actualState = STATE_IDLE;
+        }      
     }
     dead(){
         this.player.anims.play('death',false);
     }
-    updatePlayer() {
-        if (this.key_k.isDown) {
-            this.takeDamage();
-        }
-        
-        // Mates detrás de los numeros:
-        // https://www.geogebra.org/calculator/qbbr4vb7
-        
-        else if (this.context.key_e.isDown) {
-            // Ataque
-            this.attack();
-        }
-    }
     movePlayer() {
-        estat_apuntat = false;
         if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Derecha
             this.player.setVelocityX(160);
@@ -179,16 +164,32 @@ class Player {
         }
         else { //mirar que no se pulse ninguna de las 4 teclas direccionales
             // if(this.context.cursors.right.isUp && this.context.cursors.up.isUp && this.context.cursors.down.isUp && this.context.cursors.left.isUp) 
-            this.player.setVelocityX(0);
-            this.player.setVelocityY(0);
-            this.player.body.setOffset(6, 3);
-            this.player.anims.play('idle', true);
+            this.actualState = STATE_IDLE;
+        }
+    }
+    idleState(){
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
+        this.player.body.setOffset(6, 3);
+        this.player.anims.play('idle', true);
+        if(this.context.key_d.isDown || this.context.key_w.isDown || this.context.key_s.isDown || this.context.key_a.isDown){
+            this.actualState = STATE_WALK;
+        }
+        else if(this.context.key_e.isDown){
+            this.actualState = STATE_ATTACK;
         }
     }
     
     updateStates(){
+        if(this.key_k.isDown){
+            this.takeDamage();
+        }
+
         switch (this.actualState){
             case STATE_IDLE:
+                this.idleState();
+                break;
+            case STATE_WALK:
                 this.movePlayer();
                 break;
             case STATE_DASH:
