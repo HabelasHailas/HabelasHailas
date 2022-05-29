@@ -1,3 +1,6 @@
+body{
+	background-color: rgb(34, 32, 37); 
+}
 #game_area{
    margin: auto;
    margin-top: auto;
@@ -6,9 +9,7 @@
 }
 
 .menu-object{
-	display: grid;
-	grid-template-columns: 5 em;
-	grid-template-rows: 5 em;
+	display: block;
 	justify-content: center;
 	padding: 20px 80px;
 	font-weight: 500;
@@ -26,44 +27,69 @@
 
 #options_id{
 	text-align: center;
-   	padding-top: 30px;
+	padding-top: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: row;
-}
-
-.cardSize{
-	background-color: lightgreen;
-	max-width: 30%;
-	max-height: 30%;
+	/* background-color: rgb(183, 130, 221); */
 }
 
 .button{
 	padding:0;
 	margin:0;
 	text-align:center;
-	top: 10px;
-	left: 40px;
 	position:relative;
 	transition-duration: .60s;
 }
+
+.mainTitle{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 30%;
+}
+
 .buttonStart{
 	border: 0px;
 	border-radius: 0px;
-	box-shadow:  0 30px 60px rgba(0,0,0,.5);
+	margin-right: 5%;
+	margin-bottom: 5%;
+	box-shadow:  0 30px 60px rgba(67, 62, 40, 0.5);
 	background-image: url(../sprites/menuCards/StartNoHover.png);
-
+	
 }
 .buttonStart:hover{
-	box-shadow:  0 5px 10px rgba(0,0,0,.5);
-	/*background-image: url(../sprites/menuCards/StartHoverClicked.png);*/
+	box-shadow: 0 0px 20px rgba(161, 136, 78, 0.5);
+	background-image: url(../sprites/menuCards/StartHover.png);
 	transform: scale(.95);
 }
+
 .buttonOptions{
-	box-shadow:  0 30px 60px rgba(0,0,0,.5);
+	border: 0px;
+	border-radius: 0px;
+	margin-right: 5%;
+	margin-bottom: 5%;
+	box-shadow:  0 30px 60px rgba(67, 62, 40, 0.5);
+	background-image: url(../sprites/menuCards/optionsNoHover.png);
 }
 .buttonOptions:hover{
-	box-shadow:  0 5px 10px rgba(0,0,0,.5);
+	box-shadow: 0 0px 20px rgba(161, 136, 78, 0.5);
+	background-image: url(../sprites/menuCards/optionsHover.png);
+	transform: scale(.95);
+}
+
+.buttonLoad{
+	border: 0px;
+	border-radius: 0px;
+	margin-right: 5%;
+	margin-bottom: 5%;
+	margin-left: 5%;
+	box-shadow:  0 30px 60px rgba(67, 62, 40, 0.5);
+	background-image: url(../sprites/menuCards/loadNoHover.png);
+}
+.buttonLoad:hover{
+	box-shadow: 0 0px 20px rgba(161, 136, 78, 0.5);
+	background-image: url(../sprites/menuCards/loadHover.png);
 	transform: scale(.95);
 }

@@ -6,18 +6,13 @@
 		<title> TrabajoGrupal - Habelas Hailas </title>
 	</head>
 	<body>
-		<p class="menu-object" id="title">Habelas Hailas</p>
-		
+		<div>
+			<img src="/sprites/menuCards/title.png" alt="Title_HabelasHailas" class="mainTitle">
+		</div>
 		<div id="options_id">
-			<div class="cardSize">
-				<button class="menu-object buttonStart" v-on:click="start"> </button>
-			</div>
-			<!---<div class="cardSize">
-				<button class="menu-object buttonOptions" v-on:click="load"> </button>
-			</div>
-			<div class="cardSize">
-				<button class="menu-object" v-on:click="options"> </button>
-			</div>-->
+			<button class="menu-object buttonLoad" v-on:click="load"> </button>
+			<button class="menu-object buttonStart" v-on:click="start"> </button>
+			<button class="menu-object buttonOptions" v-on:click="options"> </button>
 		</div>
 	</body>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
