@@ -13,6 +13,8 @@ class Enemies{
         this.enemy = null;
         this.idleTimmer = 2000;
         this.en_actualState = STATE_IDLE_en;
+        this.pointOne = 100;
+        this.pointwo = 400;
     }
 
     preloadEnemy(){
@@ -57,15 +59,24 @@ class Enemies{
             },
             loop: false
         });
+    }
+    enemyWalk(){
+        this.playAnim('enWalk');
+        if(this.enemy.x <= this.pointOne){
+            // this.enemy.flipX = true;
+            while(this.enemy.x < this.pointwo){
+                this.enemy.setVelocityX(160);
+            }
+        }
+        else{
+            // this.flipX = false;
+            while(this.enemy.x <= this.pointwo){
+                this.enemy.setVelocityX(-160);
 
-
-        // var counter = game.time.now + this.idleTimmer;
-        // while(counter >= 0){
-        //     this.playAnim('enIdle');
-        //     counter -= 1;
-        //     console.log(counter);
-        // }
-        // this.en_actualState = STATE_WALK_en;
+            }
+        }
+        this.en_actualState = STATE_IDLE_en;
+        
     }
 
     updateEnemy(){
@@ -75,7 +86,7 @@ class Enemies{
                 this.enemyIdle();
                 break;
             case STATE_WALK_en:
-                this.playAnim('enWalk');
+                this.enemyWalk();
                 break;
             case STATE_ATTACK_en:
                 // this.attack();
