@@ -81,11 +81,11 @@ class Player {
             frames: this.context.anims.generateFrameNumbers('characterDamage', { start: 0, end: 2 }),
             frameRate: 7
         });
-        this.context.anims.create({
-            key: 'death',
-            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
-            frameRate: 5
-        });
+        // this.context.anims.create({
+        //     key: 'death',
+        //     frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
+        //     frameRate: 5
+        // });
         this.context.anims.create({
             key: 'attackProjectile',
             frames: this.context.anims.generateFrameNumbers('attackProjectile', { start: 4, end: 8}),

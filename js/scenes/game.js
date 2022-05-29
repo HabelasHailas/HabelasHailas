@@ -21,11 +21,20 @@ class GameScene extends Phaser.Scene{
 
     create(){   
         this.player.createPlayer();
-        this.enemy.createEnemy();    
+        this.enemy.createEnemy(); 
+        
+        this.physics.add.collider(this.player.attackProjectile, this.enemy);
+
+        this.physics.add.overlap(this.player.attackProjectile,this.enemy,(body1,body2)=>this.attackDone(body1,body2));
     }  
-    update(){        
+    update(){      
         this.player.updateStates();
         this.enemy.updateEnemy();
+    }
+
+    attackDone(player,enemy){
+        if(player.frame == 0) return;
+        console.log("HIT!!!");
     }
 }
 

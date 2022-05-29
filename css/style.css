@@ -20,8 +20,8 @@
 	align-items: center;
 	justify-content: center;
 	flex-direction:row;
-	width: 488px;
-	height: 889px;
+	width: 195px;
+	height: 356px;
 }
 
 #options_id{
@@ -52,13 +52,12 @@
 	border: 0px;
 	border-radius: 0px;
 	box-shadow:  0 30px 60px rgba(0,0,0,.5);
-	background-image: url(../sprites/menuCards/StartProve.png);
-	width: 488px;
-	height: 889px;
+	background-image: url(../sprites/menuCards/StartNoHover.png);
+
 }
 .buttonStart:hover{
 	box-shadow:  0 5px 10px rgba(0,0,0,.5);
-	background-image: url(../sprites/menuCards/StartHoverClicked.png);
+	/*background-image: url(../sprites/menuCards/StartHoverClicked.png);*/
 	transform: scale(.95);
 }
 .buttonOptions{
