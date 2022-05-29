@@ -7,13 +7,14 @@ const STATE_ATTACK = 3;
 const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
 
-class Player {     
-
+class Player { 
     key_a = null;
     key_s = null;
     key_d = null;
     key_w = null;
     key_e = null;
+    
+    attackProjectile;
 
     constructor(context) {
         this.context = context;
@@ -26,14 +27,21 @@ class Player {
     preloadPlayer() {   
         this.context.load.spritesheet('characterIdle', '../../sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack.png', { frameWidth: 168, frameHeight: 46 });
+        this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
         this.context.load.spritesheet('characterDamage', '../../sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death.png', { frameWidth: 32, frameHeight: 48 });
+        
+        this.context.load.spritesheet('attackProjectile', '../../sprites/character/B_witch_attack_projectile.png', { frameWidth: 80, frameHeight: 46 });
     }
     createPlayer() {
         this.player = this.context.physics.add.sprite(100, 450, 'characterIdle').setScale(2).refreshBody();
         this.player.body.setSize(18, 40); //tamaño caja colision
         this.player.setCollideWorldBounds(true);
+
+   
+        this.attackProjectile = this.context.physics.add.sprite((this.player.x*2)-5, this.player.y, 'attackProjectile').setScale(2).refreshBody();
+
+
 
         this.context.key_a = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.context.key_s = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -73,21 +81,28 @@ class Player {
             frames: this.context.anims.generateFrameNumbers('characterDamage', { start: 0, end: 2 }),
             frameRate: 7
         });
-        // this.context.anims.create({
-        //     key: 'death',
-        //     frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
-        //     frameRate: 5
-        // });
+        this.context.anims.create({
+            key: 'death',
+            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
+            frameRate: 5
+        });
+        this.context.anims.create({
+            key: 'attackProjectile',
+            frames: this.context.anims.generateFrameNumbers('attackProjectile', { start: 4, end: 8}),
+            frameRate: 3
+        });
         //#endregion
 
     }
     attack() {
         this.player.anims.play('attack', true);
+        this.attackProjectile.anims.play('attackProjectile',true);
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
-        this.player.body.setOffset(15, 0);
+        this.player.body.setOffset(13,3);
         this.player.once('animationcomplete',() => {
             this.actualState = STATE_IDLE;
+            this.attackProjectile.setFrame(0);
         });
 
     }
@@ -95,13 +110,15 @@ class Player {
         this.actualState = STATE_DAMAGE;
         this.hitPoints -= 20;
         this.player.anims.play('damage', true);
-
-        if (this.hitPoints <= 0) {
-            this.actualState = STATE_DEAD;
-        }  
-        else{
+        this.player.once('animationcomplete',() => {
             this.actualState = STATE_IDLE;
-        }      
+        });
+
+        // if (this.hitPoints <= 0) {
+        //     this.actualState = STATE_DEAD;
+        // }  
+        // else{
+            // }      
     }
     dead(){
         this.player.anims.play('death',false);
@@ -165,8 +182,18 @@ class Player {
             // if(this.context.cursors.right.isUp && this.context.cursors.up.isUp && this.context.cursors.down.isUp && this.context.cursors.left.isUp) 
             this.actualState = STATE_IDLE;
         }
+        this.attackProjectile.setFrame(0);
+        if(this.player.flipX){
+            this.attackProjectile.setPosition(this.player.x-105, this.player.y); 
+            this.attackProjectile.flipX = true;
+        }
+        else{
+            this.attackProjectile.flipX = false;
+            this.attackProjectile.setPosition(this.player.x+100, this.player.y); 
+        }
     }
     idleState(){
+        this.attackProjectile.setFrame(0);
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
         this.player.body.setOffset(6, 3);

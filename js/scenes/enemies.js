@@ -8,14 +8,15 @@ const STATE_DEAD_en = 4;
 
 
 class Enemies{
+    firstWalk = true;
+    pointOne = 100;
+    pointwo = 600;
     constructor(context){
         this.enemyContext = context;
         this.enemy = null;
         this.idleTimmer = 5000;
         this.en_actualState = STATE_IDLE_en;
-        this.pointOne = 100;
-        this.pointwo = 600;
-        this.firstWalk = true;
+        this.enemy_hitPoints = 2;
     }
 
     preloadEnemy(){
