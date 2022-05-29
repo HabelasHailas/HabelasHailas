@@ -22,7 +22,6 @@
 	flex-direction:row;
 	width: 488px;
 	height: 889px;
-
 }
 
 #options_id{
@@ -34,14 +33,18 @@
 	flex-direction: row;
 }
 
+.cardSize{
+	background-color: lightgreen;
+	max-width: 30%;
+	max-height: 30%;
+}
+
 .button{
 	padding:0;
 	margin:0;
-	width: 488px;
-	height: 889px;
 	text-align:center;
-	top: 300px;
-	left:40px;
+	top: 10px;
+	left: 40px;
 	position:relative;
 	transition-duration: .60s;
 }
@@ -49,7 +52,9 @@
 	border: 0px;
 	border-radius: 0px;
 	box-shadow:  0 30px 60px rgba(0,0,0,.5);
-	background-image: url(../sprites/menuCards/StartNoHover.png);
+	background-image: url(../sprites/menuCards/StartProve.png);
+	width: 488px;
+	height: 889px;
 }
 .buttonStart:hover{
 	box-shadow:  0 5px 10px rgba(0,0,0,.5);
