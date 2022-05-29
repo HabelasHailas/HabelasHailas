@@ -26,7 +26,7 @@ class Player {
     preloadPlayer() {   
         this.context.load.spritesheet('characterIdle', '../../sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
+        this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack.png', { frameWidth: 168, frameHeight: 46 });
         this.context.load.spritesheet('characterDamage', '../../sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death.png', { frameWidth: 32, frameHeight: 48 });
     }

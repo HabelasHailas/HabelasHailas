@@ -11,10 +11,11 @@ class Enemies{
     constructor(context){
         this.enemyContext = context;
         this.enemy = null;
-        this.idleTimmer = 2000;
+        this.idleTimmer = 5000;
         this.en_actualState = STATE_IDLE_en;
         this.pointOne = 100;
-        this.pointwo = 400;
+        this.pointwo = 600;
+        this.firstWalk = true;
     }
 
     preloadEnemy(){
@@ -51,6 +52,7 @@ class Enemies{
     }
     
     enemyIdle(){
+        this.enemy.setVelocityX(0);
         this.playAnim('enIdle');
         this.enemyContext.time.addEvent({
             delay: this.idleTimmer,
@@ -60,27 +62,34 @@ class Enemies{
             loop: false
         });
     }
-    enemyWalk(){
-        this.playAnim('enWalk');
-        if(this.enemy.x <= this.pointOne){
-            // this.enemy.flipX = true;
-            while(this.enemy.x < this.pointwo){
-                this.enemy.setVelocityX(160);
-            }
-        }
-        else{
-            // this.flipX = false;
-            while(this.enemy.x <= this.pointwo){
-                this.enemy.setVelocityX(-160);
 
+    enemyWalk(){    
+        this.playAnim('enWalk');
+        if(this.enemy.x <= this.pointOne){ 
+            if(this.firstWalk){
+                this.enemy.flipX = true;
+                this.enemy.setVelocityX(160);
+                this.firstWalk = false;
+            }
+            else{
+                this.en_actualState = STATE_IDLE_en; 
+                this.firstWalk = true;
+            }    
+        }
+        else if (this.enemy.x >= this.pointwo){
+            if(this.firstWalk){
+                this.enemy.flipX = false;
+                this.enemy.setVelocityX(-160);
+                this.firstWalk = false;
+            }
+            else{
+                this.en_actualState = STATE_IDLE_en; 
+                this.firstWalk = true;
             }
         }
-        this.en_actualState = STATE_IDLE_en;
-        
     }
 
     updateEnemy(){
-
         switch (this.en_actualState){
             case STATE_IDLE_en:
                 this.enemyIdle();
@@ -95,7 +104,6 @@ class Enemies{
                 // this.takeDamage();
                 break;
         }
-
     }
 }
 
