@@ -25,7 +25,6 @@ class GameScene extends Phaser.Scene{
         
         this.physics.add.collider(this.player.attackProjectile, this.enemy);
 
-
         this.physics.add.overlap(this.player.attackProjectile,this.enemy.enemy,(body1,body2)=>this.attackDone(body1,body2));
     }  
     update(){      
@@ -35,8 +34,7 @@ class GameScene extends Phaser.Scene{
 
     attackDone(player,enemy){
         if(player.frame.name == 0) return;
-
-        this.enemy.enemyDamage();
+        this.enemy.en_actualState = 3;
     }
 }
 

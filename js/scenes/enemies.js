@@ -80,8 +80,8 @@ class Enemies{
                 this.firstWalk = false;
             }
             else{
-                this.en_actualState = STATE_IDLE_en; 
                 this.firstWalk = true;
+                this.en_actualState = STATE_IDLE_en; 
             }    
         }
         else if (this.enemy.x >= this.pointwo){
@@ -91,27 +91,25 @@ class Enemies{
                 this.firstWalk = false;
             }
             else{
-                this.en_actualState = STATE_IDLE_en; 
                 this.firstWalk = true;
+                this.en_actualState = STATE_IDLE_en; 
             }
         }
     }
 
     enemyDamage(){
         //TODO: arreglar caminar de la hiena quan rep dany.
-        var previousState = this.en_actualState;
+       
         this.en_actualState = STATE_DAMAGE_en;
-        this.enemy.setVelocityX(0);
         this.enemy.anims.play('enHit',false);
-        this.enemy_hitPoints -= 1;
-        // this.enemy.once('animationcomplete',() => {
-        //     this.en_actualState = previousState;
-        //     this.firstWalk = true;
-        // });
-        this.en_actualState = previousState;
+        this.enemy.setVelocityX(0);
+        // this.enemy_hitPoints -= 1;
+        console.log(this.enemy.x);
+        this.en_actualState = STATE_WALK_en;
     }
 
     updateEnemy(){
+        console.log(this.en_actualState);
         switch (this.en_actualState){
             case STATE_IDLE_en:
                 this.enemyIdle();
