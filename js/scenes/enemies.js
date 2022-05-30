@@ -7,10 +7,12 @@ const STATE_DAMAGE_en = 3;
 const STATE_DEAD_en = 4;
 
 
-class Enemies{
+class Enemies /*TO LOVERS*/{
     firstWalk = true;
     pointOne = 100;
     pointwo = 600;
+    fromHit = false;
+    firstHit = true;
     constructor(context){
         this.enemyContext = context;
         this.enemy = null;
@@ -23,6 +25,7 @@ class Enemies{
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyHit','../../sprites/enemigos/Hyena_hurt.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyDie','../../sprites/enemigos/Hyena_death.png', {frameWidth: 48, frameHeight: 48});
     }
 
     createEnemy(){
@@ -51,6 +54,12 @@ class Enemies{
             frameRate: 9,
             repeat: -1
          });
+         this.enemyContext.anims.create({
+            key:'enDie',
+            frames: this.enemyContext.anims.generateFrameNumbers('enemyDie',{start: 0, end: 5}),
+            frameRate: 5,
+            repeat: -1
+         });
     //#endregion
       
     }
@@ -60,6 +69,7 @@ class Enemies{
     }
     
     enemyIdle(){
+        this.firstHit = true;
         this.enemy.setVelocityX(0);
         this.playAnim('enIdle');
         this.enemyContext.time.addEvent({
@@ -72,6 +82,7 @@ class Enemies{
     }
 
     enemyWalk(){    
+        this.firstHit = true;
         this.playAnim('enWalk');
         if(this.enemy.x <= this.pointOne){ 
             if(this.firstWalk){
@@ -95,34 +106,63 @@ class Enemies{
                 this.en_actualState = STATE_IDLE_en; 
             }
         }
+        else{
+            if(this.fromHit){
+                if(this.enemy.flipX) this.enemy.setVelocityX(160);
+                else  this.enemy.setVelocityX(-160);
+                this.fromHit = false;
+            }
+        }
+
     }
 
-    enemyDamage(){
-        //TODO: arreglar caminar de la hiena quan rep dany.
-       
-        this.en_actualState = STATE_DAMAGE_en;
-        this.enemy.anims.play('enHit',false);
+    enemyDie(){
+        console.log("muerteeee!!!");
+        // this.en_actualState = STATE_DEAD_en;
         this.enemy.setVelocityX(0);
-        // this.enemy_hitPoints -= 1;
-        console.log(this.enemy.x);
-        this.en_actualState = STATE_WALK_en;
+        this.enemy.anims.play('enDie',false);
+        this.enemy.destroy();
+    }
+
+    enemyDamage(){       
+        this.en_actualState = STATE_DAMAGE_en;
+        this.enemy.setVelocityX(0);
+        this.enemy.anims.play('enHit',false);
+        this.enemyGetHit();
+    }
+    enemyGetHit(){
+        console.log("VIDA",this.enemy_hitPoints);
+        if(this.firstHit){
+            this.enemy_hitPoints -= 1;
+            this.firstHit = false;
+        }
+        if(this.enemy_hitPoints <= 0){
+            this.en_actualState = STATE_DEAD_en;
+            this.enemyDie();
+        }
+        else if(this.en_actualState != STATE_DEAD_en){
+            this.fromHit = true;
+            this.en_actualState = STATE_WALK_en;
+        }
     }
 
     updateEnemy(){
         console.log(this.en_actualState);
-        switch (this.en_actualState){
-            case STATE_IDLE_en:
-                this.enemyIdle();
-                break;
-            case STATE_WALK_en:
-                this.enemyWalk();
-                break;
-            case STATE_ATTACK_en:
-                // this.attack();
-                break;
-            case STATE_DAMAGE_en:
-                this.enemyDamage();
-                break;
+        if(this.en_actualState != STATE_DEAD_en){
+            switch (this.en_actualState){
+                case STATE_IDLE_en:
+                    this.enemyIdle();
+                    break;
+                case STATE_WALK_en:
+                    this.enemyWalk();
+                    break;
+                case STATE_ATTACK_en:
+                    // this.attack();
+                    break;
+                case STATE_DAMAGE_en:
+                    this.enemyDamage();
+                    break;
+            }
         }
     }
 }
