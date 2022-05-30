@@ -25,7 +25,7 @@ class Enemies /*TO LOVERS*/{
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyHit','../../sprites/enemigos/Hyena_hurt.png', {frameWidth: 48, frameHeight: 48});
-        this.enemyContext.load.spritesheet('enemyDie','../../sprites/enemigos/Hyena_death.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyDie','../../sprites/enemigos/Hyena_death2.png', {frameWidth: 48, frameHeight: 48});
     }
 
     createEnemy(){
@@ -56,7 +56,7 @@ class Enemies /*TO LOVERS*/{
          });
          this.enemyContext.anims.create({
             key:'enDie',
-            frames: this.enemyContext.anims.generateFrameNumbers('enemyDie',{start: 0, end: 5}),
+            frames: this.enemyContext.anims.generateFrameNumbers('enemyDie',{start: 0, end: 7}),
             frameRate: 5,
             repeat: -1
          });
@@ -117,11 +117,11 @@ class Enemies /*TO LOVERS*/{
     }
 
     enemyDie(){
-        console.log("muerteeee!!!");
         // this.en_actualState = STATE_DEAD_en;
         this.enemy.setVelocityX(0);
         this.enemy.anims.play('enDie',false);
-        this.enemy.destroy();
+        
+        this.enemy.frame()
     }
 
     enemyDamage(){       
