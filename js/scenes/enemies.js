@@ -7,12 +7,13 @@ const STATE_DAMAGE_en = 3;
 const STATE_DEAD_en = 4;
 
 
-class Enemies /*TO LOVERS*/{
+class Enemies{
     firstWalk = true;
     pointOne = 100;
     pointwo = 600;
     fromHit = false;
     firstHit = true;
+    isDead = false;
     constructor(context){
         this.enemyContext = context;
         this.enemy = null;
@@ -52,13 +53,13 @@ class Enemies /*TO LOVERS*/{
             key:'enHit',
             frames: this.enemyContext.anims.generateFrameNumbers('enemyHit',{start: 0, end: 1}),
             frameRate: 9,
-            repeat: -1
+            repeat: 0
          });
          this.enemyContext.anims.create({
             key:'enDie',
             frames: this.enemyContext.anims.generateFrameNumbers('enemyDie',{start: 0, end: 7}),
             frameRate: 5,
-            repeat: -1
+            repeat: 0
          });
     //#endregion
       
@@ -66,6 +67,12 @@ class Enemies /*TO LOVERS*/{
 
     playAnim(anim){
         this.enemy.anims.play(anim,true);
+    }
+
+    changeState(state){
+        if(!this.isDead){
+            this.en_actualState = state;
+        }
     }
     
     enemyIdle(){
@@ -84,46 +91,63 @@ class Enemies /*TO LOVERS*/{
     enemyWalk(){    
         this.firstHit = true;
         this.playAnim('enWalk');
-        if(this.enemy.x <= this.pointOne){ 
-            if(this.firstWalk){
-                this.enemy.flipX = true;
-                this.enemy.setVelocityX(160);
-                this.firstWalk = false;
-            }
-            else{
-                this.firstWalk = true;
-                this.en_actualState = STATE_IDLE_en; 
-            }    
+        if(this.enemy.x <= this.pointOne){
+            this.enemy.flipX = true;
         }
         else if (this.enemy.x >= this.pointwo){
-            if(this.firstWalk){
-                this.enemy.flipX = false;
-                this.enemy.setVelocityX(-160);
-                this.firstWalk = false;
-            }
-            else{
-                this.firstWalk = true;
-                this.en_actualState = STATE_IDLE_en; 
-            }
+            this.enemy.flipX = false;
+        }
+
+        if(this.enemy.flipX){
+            this.enemy.setVelocityX(160);
         }
         else{
-            if(this.fromHit){
-                if(this.enemy.flipX) this.enemy.setVelocityX(160);
-                else  this.enemy.setVelocityX(-160);
-                this.fromHit = false;
-            }
+            this.enemy.setVelocityX(-160);
         }
+        // if(!this.fromHit){
+        //     if(this.enemy.x <= this.pointOne){ 
+        //         if(this.firstWalk){
+        //             this.enemy.flipX = true;
+        //             this.enemy.setVelocityX(160);
+        //             this.firstWalk = false;
+        //         }
+        //         else{
+        //             this.firstWalk = true;
+        //             this.en_actualState = STATE_IDLE_en; 
+        //         }    
+        //     }
+        //     else if (this.enemy.x >= this.pointwo){
+        //         if(this.firstWalk){
+        //             this.enemy.flipX = false;
+        //             this.enemy.setVelocityX(-160);
+        //             this.firstWalk = false;
+        //         }
+        //         else{
+        //             this.firstWalk = true;
+        //             this.en_actualState = STATE_IDLE_en; 
+        //         }
+        //     }
+        // }
+        // else{
+        //     if(this.enemy.flipX) this.enemy.setVelocityX(160);
+        //     else  this.enemy.setVelocityX(-160);
+        //     this.fromHit = false;
+        
+        // }
 
     }
 
     enemyDie(){
-        // this.en_actualState = STATE_DEAD_en;
-        this.enemy.setVelocityX(0);
-        this.enemy.anims.play('enDie',false);
-        this.enemy.on('animationcomplete',() => {
-            this.enemy.setFrame(0);
-            this.en_actualState = 5;
-        });
+        this.en_actualState = STATE_DEAD_en;
+        if(!this.isDead){
+            this.isDead = true;
+            this.enemy.setVelocityX(0);
+            this.enemy.anims.play('enDie',false);
+            this.enemy.once('animationcomplete',() => {
+                console.log("aguacate");
+                // this.enemy.destroy();                
+            });            
+        }
     }
 
     enemyDamage(){       
@@ -143,7 +167,6 @@ class Enemies /*TO LOVERS*/{
             this.enemyDie();
         }
         else if(this.en_actualState != STATE_DEAD_en){
-            this.fromHit = true;
             this.en_actualState = STATE_WALK_en;
         }
     }

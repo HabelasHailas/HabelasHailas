@@ -33,10 +33,10 @@ class GameScene extends Phaser.Scene{
     }
 
     attackDone(player,enemy){
-        //TODO: hace el metodo en bucle, quitando demasiadas vidas. HACER SOLO UNA VEZ
         var first = false;
         if(player.frame.name == 0)  return;
-        this.enemy.en_actualState = 3;
+        console.log("aguacate2");
+        this.enemy.changeState(3);
     }
 }
 
