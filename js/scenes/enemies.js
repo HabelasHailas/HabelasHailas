@@ -120,8 +120,10 @@ class Enemies /*TO LOVERS*/{
         // this.en_actualState = STATE_DEAD_en;
         this.enemy.setVelocityX(0);
         this.enemy.anims.play('enDie',false);
-        
-        this.enemy.frame()
+        this.enemy.on('animationcomplete',() => {
+            this.enemy.setFrame(0);
+            this.en_actualState = 5;
+        });
     }
 
     enemyDamage(){       
@@ -161,6 +163,9 @@ class Enemies /*TO LOVERS*/{
                     break;
                 case STATE_DAMAGE_en:
                     this.enemyDamage();
+                    break;
+                default:
+                    this.enemy.setFrame(0);
                     break;
             }
         }
