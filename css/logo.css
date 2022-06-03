@@ -1,0 +1,45 @@
+.path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: dash 5s linear alternate;
+}
+  
+@keyframes dash {
+    from {
+      stroke-dashoffset: 822;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+}
+
+.final {
+    animation: mostrar 5s linear;
+}
+  
+@keyframes mostrar {
+    0%{
+        opacity: 0%;
+    }
+    70%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
+}
+.ojo{
+    animation: abrirOjo 5s linear;
+
+}
+@keyframes abrirOjo {
+    0%{
+        ry: 0;
+    }
+    70%{
+        ry: 40;
+    }
+    100%{
+        opacity: 100%;
+    }
+}
