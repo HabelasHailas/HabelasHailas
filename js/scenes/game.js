@@ -7,9 +7,23 @@ class GameScene extends Phaser.Scene{
         this.player = new Player(this);
         this.enemy = new Enemies(this);
         this.demon = [];
+        this.points = 0;
     }
        
     preload(){
+        //#region load del mapa
+        this.load.image('woodSingBot','../sprites/woodSignBot.png')
+        this.load.image('woodSingTop','../sprites/woodSignTop.png')
+        this.load.image('tiles','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
+        this.load.image('tilesPlant','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
+        this.load.image('tilesProps','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
+        this.load.image('tilesShadowPlants','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
+        this.load.image('tilesShadow','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
+        this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
+        this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
+        this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
+        this.load.tilemapTiledJSON('map',"../Map/proveMap.tmj");
+        //#endregion
         // this.load.spritesheet      
         this.player.preloadPlayer();  
         this.enemy.preloadEnemy();  
@@ -19,20 +33,33 @@ class GameScene extends Phaser.Scene{
             this.demon[i].preloadDemon();
         }
 
-        //#region load del mapa
-        this.load.image('woodSingBot','../sprites/woodSignBot.png')
-        this.load.image('woodSingTop','../sprites/woodSignTop.png')
-        this.load.image('tiles','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
-        this.load.tilemapTiledJSON('map',"../Map/HabelasHailasTileMapv3.json");
-        //#endregion
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.refresh();         
     }
 
     create(){   
-        this.enemy.createEnemy(); 
+        //#region crear mapa tiles
+            const map = this.make.tilemap({
+                key: "map",
+                tileWidth: 32, 
+                tileHeight: 32
+            });
+            const tileset = map.addTilesetImage("TX Tileset Grass", "tiles");
+            const layer = map.createLayer("prove",tileset,0,0);
+            const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
+            const tilesWall = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            const layer2 = map.createLayer("prove2",tilesWall,0,0);
+            const layer3 = map.createLayer("prove2",tilesProve,0,0);
+            //layer2 = map.createLayer("prove2",tilesWall,0,0);
+            
+            
+            layer.setScale(2);
+
+        //#endregion
+
         this.player.createPlayer();
+        this.enemy.createEnemy(); 
         for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
         
         //#region COLI
@@ -43,19 +70,10 @@ class GameScene extends Phaser.Scene{
         this.physics.add.overlap(this.player.attackProjectile,this.enemy.enemy,(body1,body2)=>this.attackDone(body1,body2));
         this.physics.add.overlap(this.player.player,this.enemy.enemy,(player,enemy)=>this.enemyHits(player,enemy));
         for(var i = 0; i < 4; i++)  
-            this.physics.add.overlap(this.player.player,this.demon[i].demon,(this.demon[i])=>this.enterDemon(player,demon));
+            this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
         //#endregion
         
-        //#region crear mapa tiles
-            const map = this.make.tilemap({
-                key: "map",
-                tileWidth: 32, 
-                tileHeight: 32
-            });
-            const tileset = map.addTilesetImage("TX Tileset Grass", "tiles");
-            const layer = map.createLayer("flowers",tileset,0,0);
-        //#endregion
-    }  
+    }
     update(){      
         this.enemy.updateEnemy();
         this.player.updateStates();
@@ -74,8 +92,7 @@ class GameScene extends Phaser.Scene{
         this.player.changeState(STATE_DAMAGE, sideCollided);
     }
     enterDemon(player,demon){
-        console.log("HOLAAAAA");
-        demon.enterDemonRange();
+        this.demon[parseInt(demon.name)].enterDemonRange();
     }
 }
 

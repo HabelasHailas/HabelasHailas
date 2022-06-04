@@ -49,10 +49,19 @@ body{
 }
 
 .mainTitle{
-	display: block;
+	/* display: block; */
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 30%;
+}
+#menuBox{
+	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	margin-left: 3%;
+	margin-right: 3%;
+	margin-bottom: 2%;
 }
 
 .buttonStart{
@@ -98,3 +107,4 @@ body{
 	background-image: url(../sprites/menuCards/loadHover.png);
 	transform: scale(.95);
 }
+
