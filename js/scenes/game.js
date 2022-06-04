@@ -48,10 +48,9 @@ class GameScene extends Phaser.Scene{
             const tileset = map.addTilesetImage("TX Tileset Grass", "tiles");
             const layer = map.createLayer("prove",tileset,0,0);
             const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
-            const tilesWall = map.addTilesetImage("TX Tileset Wall", "tilesWall");
-            const layer2 = map.createLayer("prove2",tilesWall,0,0);
-            const layer3 = map.createLayer("prove2",tilesProve,0,0);
-            //layer2 = map.createLayer("prove2",tilesWall,0,0);
+            const tilesWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            const tilesProp = map.addTilesetImage("TX Props", "tilesProps");
+            const layer2 = map.createLayer("prove2",tilesWalls,0,0);
             
             
             layer.setScale(2);

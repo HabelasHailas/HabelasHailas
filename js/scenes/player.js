@@ -42,7 +42,6 @@ class Player {
         this.player.body.setSize(18, 40); //tamaño caja colision
         this.player.setCollideWorldBounds(true);
 
-   
         this.attackProjectile = this.context.physics.add.sprite((this.player.x*2)-5, this.player.y, 'attackProjectile').setScale(2).refreshBody();
         this.attackProjectile.body.setSize(80,35);
 

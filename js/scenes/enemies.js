@@ -5,6 +5,7 @@ const STATE_WALK_en = 1;
 const STATE_ATTACK_en = 2;
 const STATE_DAMAGE_en = 3;
 const STATE_DEAD_en = 4;
+const STATE_FOLLOW_en = 5;
 
 
 class Enemies{
@@ -17,12 +18,12 @@ class Enemies{
 
     constructor(context){
         this.enemyContext = context;
+        this.nearCollision = null;
         this.enemy = null;
         this.idleTimmer = 5000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
     }
-
     preloadEnemy(){
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
@@ -36,6 +37,9 @@ class Enemies{
         this.enemy.body.setSize(40, 30);       
         this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
+
+        this.nearCollision = this.enemyContext.physics.add.sprite(this.enemy.x, this.enemy.y).setScale(2).refreshBody();
+        this.nearCollision.body.setSize(150,150);
         //#endregion  
 
         //#region animaciones enemigo
@@ -169,6 +173,7 @@ class Enemies{
     }
 
     updateEnemy(){
+        this.nearCollision.setPosition(this.enemy.x, this.enemy.y); 
         if(this.en_actualState != STATE_DEAD_en && !this.isDead){
             switch (this.en_actualState){
                 case STATE_IDLE_en:
