@@ -3,7 +3,6 @@ var config = {
     width: 800,
     height: 600,
     parent: 'game_area',
-    backgroundColor: '#39ac39',
     physics: {
         default: 'arcade',
         arcade:{

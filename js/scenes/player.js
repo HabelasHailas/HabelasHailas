@@ -232,8 +232,7 @@ class Player {
             this.attackProjectile.setPosition(this.player.x+100, this.player.y); 
         }
         this.attackProjectile.setFrame(0);
-    }
-    
+    }    
     updateStates(){
         if(this.key_k.isDown){
             this.actualState = 6;
