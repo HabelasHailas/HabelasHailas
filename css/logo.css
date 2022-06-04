@@ -28,7 +28,7 @@
         opacity: 100%;
     }
 }
-.ojo{
+.ojo:hover{
     animation: abrirOjo 5s linear;
 
 }
