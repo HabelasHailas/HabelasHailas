@@ -14,6 +14,7 @@ class Enemies{
     fromHit = false;
     firstHit = true;
     isDead = false;
+
     constructor(context){
         this.enemyContext = context;
         this.enemy = null;
@@ -32,7 +33,9 @@ class Enemies{
     createEnemy(){
         //#region enemy physics
         this.enemy = this.enemyContext.physics.add.sprite(100,450,'enemyIdle').setScale(1.5).refreshBody();
-        this.enemy.setPosition(100,100);       
+        this.enemy.setPosition(100,100);
+        this.enemy.body.setSize(40, 30);       
+        this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
         //#endregion  
 
@@ -174,7 +177,6 @@ class Enemies{
     // }
 
     updateEnemy(){
-        console.log(this.en_actualState);
         if(this.en_actualState != STATE_DEAD_en && !this.isDead){
             switch (this.en_actualState){
                 case STATE_IDLE_en:

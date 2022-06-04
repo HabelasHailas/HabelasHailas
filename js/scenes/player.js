@@ -13,6 +13,9 @@ class Player {
     key_d = null;
     key_w = null;
     key_e = null;
+
+    isAttacked = false
+    collSide = '';
     
     attackProjectile;
 
@@ -29,7 +32,8 @@ class Player {
         this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
         this.context.load.spritesheet('characterDamage', '../../sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death.png', { frameWidth: 32, frameHeight: 48 });
+        // this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_charge.png', { frameWidth: 48, frameHeight: 48 });
         
         this.context.load.spritesheet('attackProjectile', '../../sprites/character/B_witch_attack_projectile.png', { frameWidth: 80, frameHeight: 46 });
     }
@@ -81,11 +85,11 @@ class Player {
             frames: this.context.anims.generateFrameNumbers('characterDamage', { start: 0, end: 2 }),
             frameRate: 7
         });
-        // this.context.anims.create({
-        //     key: 'death',
-        //     frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
-        //     frameRate: 5
-        // });
+        this.context.anims.create({
+            key: 'death',
+            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 4 }),
+            frameRate: 10
+        });
         this.context.anims.create({
             key: 'attackProjectile',
             frames: this.context.anims.generateFrameNumbers('attackProjectile', { start: 4, end: 8}),
@@ -108,19 +112,33 @@ class Player {
     }
     takeDamage() {
         this.actualState = STATE_DAMAGE;
-        this.hitPoints -= 20;
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
+        if(!this.isAttacked){
+            this.isAttacked = true;
+            this.hitPoints -= 20;        
+        }
+        console.log("VIDA: " ,this.hitPoints);
         this.player.anims.play('damage', true);
         this.player.once('animationcomplete',() => {
             this.actualState = STATE_IDLE;
+            this.isAttacked = false;
         });
+        switch(this.collSide){
+            case 't':this.player.setPosition(this.player.x, this.player.y + 3);  break;
+            case 'd':this.player.setPosition(this.player.x, this.player.y - 3);  break;
+            case 'l':this.player.setPosition(this.player.x + 5, this.player.y);  break;
+            case 'r':this.player.setPosition(this.player.x - 5, this.player.y);  break;
+        }
+        this.projectilePosition();
 
-        // if (this.hitPoints <= 0) {
-        //     this.actualState = STATE_DEAD;
-        // }  
-        // else{
-            // }      
+        if (this.hitPoints <= 0) {
+            this.actualState = STATE_DEAD;
+        }     
     }
     dead(){
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
         this.player.anims.play('death',false);
     }
     movePlayer() {
@@ -182,15 +200,8 @@ class Player {
             // if(this.context.cursors.right.isUp && this.context.cursors.up.isUp && this.context.cursors.down.isUp && this.context.cursors.left.isUp) 
             this.actualState = STATE_IDLE;
         }
-        this.attackProjectile.setFrame(0);
-        if(this.player.flipX){
-            this.attackProjectile.setPosition(this.player.x-105, this.player.y); 
-            this.attackProjectile.flipX = true;
-        }
-        else{
-            this.attackProjectile.flipX = false;
-            this.attackProjectile.setPosition(this.player.x+100, this.player.y); 
-        }
+        this.projectilePosition();
+
     }
     idleState(){
         this.attackProjectile.setFrame(0);
@@ -205,10 +216,31 @@ class Player {
             this.actualState = STATE_ATTACK;
         }
     }
+    changeState(state, col){
+        if(this.actualState != STATE_DEAD){
+            this.actualState = state;
+            this.collSide = col;
+        }
+    }
+    projectilePosition(){
+        if(this.player.flipX){
+            this.attackProjectile.setPosition(this.player.x-105, this.player.y); 
+            this.attackProjectile.flipX = true;
+        }
+        else{
+            this.attackProjectile.flipX = false;
+            this.attackProjectile.setPosition(this.player.x+100, this.player.y); 
+        }
+        this.attackProjectile.setFrame(0);
+    }
     
     updateStates(){
         if(this.key_k.isDown){
-            this.takeDamage();
+            this.actualState = 6;
+            this.player.anims.play('death',false);
+            this.player.once('animationcomplete',() => {
+                this.actualState = STATE_IDLE;
+            });
         }
 
         switch (this.actualState){
@@ -226,9 +258,9 @@ class Player {
             case STATE_DAMAGE:
                 this.takeDamage();
                 break;
-            // case STATE_DEAD:
-            //     this.dead();
-            //     break;
+            case STATE_DEAD:
+                this.dead();
+                break;
         }
     }
 }
