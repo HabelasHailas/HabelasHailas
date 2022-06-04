@@ -12,7 +12,7 @@ var config = {
         }
     },
     pixelArt: true,
-    scene: [GameScene]
+    scene: [GameScene, Pause]
 };
 
 var game = new Phaser.Game(config);
