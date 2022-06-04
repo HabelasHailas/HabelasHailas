@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="75" height="57" tilewidth="32" tileheight="32" infinite="0" nextlayerid="23" nextobjectid="361">
  <tileset firstgid="1" name="TX Tileset Grass" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png" width="256" height="256"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="65" name="TX Tileset Stone Ground" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png" width="256" height="256"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="129" name="TX Props" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png" width="512" height="512"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png" width="512" height="512"/>
   <tile id="0">
    <properties>
     <property name="Collide" type="bool" value="true"/>
@@ -1290,7 +1290,7 @@
   </tile>
  </tileset>
  <tileset firstgid="385" name="TX Tileset Wall" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png" width="512" height="512"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png" width="512" height="512"/>
   <tile id="0">
    <properties>
     <property name="Collide" type="bool" value="true"/>
@@ -2333,13 +2333,13 @@
   </tile>
  </tileset>
  <tileset firstgid="641" name="TX Struct" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png" width="512" height="512"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="897" name="B_witch_idle" tilewidth="32" tileheight="48" tilecount="6" columns="1">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/character/B_witch_idle.png" width="32" height="288"/>
+  <image source="../sprites/character/B_witch_idle.png" width="32" height="288"/>
  </tileset>
  <tileset firstgid="903" name="TX Plant" tilewidth="32" tileheight="32" tilecount="256" columns="16">
-  <image source="../OneDrive/Documentos/Universidad/Segundo/2ºSemestre/DDJW/HabelasHailas/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png" width="512" height="512"/>
+  <image source="../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png" width="512" height="512"/>
   <tile id="0">
    <properties>
     <property name="Collide" type="bool" value="true"/>
