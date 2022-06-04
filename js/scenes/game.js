@@ -47,15 +47,32 @@ class GameScene extends Phaser.Scene{
                 tileHeight: 32
             });
             const tilesetGrass = map.addTilesetImage("TX Tileset Grass", "tilesGrass");
-            // const layer = map.createLayer("prove",tileset,0,0);
-            // const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
-            // const tilesWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
-            // const tilesProp = map.addTilesetImage("TX Props", "tilesProps");
-            // const layer2 = map.createLayer("prove2",tilesWalls,0,0);
+            const tilesetWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            const tilesetStruct = map.addTilesetImage("TX Struct", "tilesStruct");
+            const tilesetShadow = map.addTilesetImage("TX Shadow", "tilesShadow");
+            const tilesetProps = map.addTilesetImage("TX Props", "tilesProps");
+            const tilesetPlant = map.addTilesetImage("TX Plant", "tilesPlant");
+            const tilesetProps2 = map.addTilesetImage("TX Props", "tilesProps");
+            const tilesetPlants2 = map.addTilesetImage("TX Plant", "tilesPlant");
+            
             const layerGrass = map.createLayer("Grass",tilesetGrass,0,0);
+            const layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
+            const layerStruct = map.createLayer("Struct",tilesetStruct,0,0);
+            const layerShadow = map.createLayer("Shadow",tilesetShadow,0,0);
+            const layerProps = map.createLayer("Props",tilesetProps,0,0);
+            const layerPlant = map.createLayer("Plant",tilesetPlant,0,0);
+            const layerProps2 = map.createLayer("Props2",tilesetProps,0,0);
+            const layerPlants2 = map.createLayer("Plants2",tilesetPlants2,0,0);
             
             
-            layerGrass.setScale(2);
+            layerGrass.setScale(1.3);
+            layerWalls.setScale(1.3);
+            layerStruct.setScale(1.3);
+            layerShadow.setScale(1.3);
+            layerProps.setScale(1.3);
+            layerPlant.setScale(1.3);
+            layerProps2.setScale(1.3);
+            layerPlants2.setScale(1.3);
 
         //#endregion
 
