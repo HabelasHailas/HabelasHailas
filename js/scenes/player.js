@@ -205,6 +205,11 @@ class Player {
             this.actualState = STATE_ATTACK;
         }
     }
+    changeState(state){
+        if(this.actualState != STATE_DEAD){
+            this.actualState = state;
+        }
+    }
     
     updateStates(){
         if(this.key_k.isDown){
