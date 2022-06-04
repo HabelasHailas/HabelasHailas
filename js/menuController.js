@@ -7,7 +7,7 @@ var options = function(){
 		},
 		methods: { 
 			start: function(){
-                loadpage("../html/game.html");
+                loadpage("./html/game.html");
 			},
             load: function(){
                 loadpage("../index.html");

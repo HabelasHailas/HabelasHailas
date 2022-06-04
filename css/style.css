@@ -25,6 +25,11 @@ body{
 	height: 356px;
 }
 
+#logo{
+	text-align: center;
+	padding: 0px 0px 0px 200px;
+}
+
 #options_id{
 	text-align: center;
 	padding-top: 30px;
