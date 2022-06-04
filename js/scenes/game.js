@@ -35,7 +35,6 @@ class GameScene extends Phaser.Scene{
     attackDone(player,enemy){
         var first = false;
         if(player.frame.name == 0)  return;
-        console.log("aguacate2");
         this.enemy.changeState(3);
     }
 }

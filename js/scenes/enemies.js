@@ -93,11 +93,13 @@ class Enemies{
         this.playAnim('enWalk');
         if(this.enemy.x <= this.pointOne){
             this.enemy.flipX = true;
+            this.en_actualState = STATE_IDLE_en;
         }
         else if (this.enemy.x >= this.pointwo){
             this.enemy.flipX = false;
+            this.en_actualState = STATE_IDLE_en;
         }
-
+        
         if(this.enemy.flipX){
             this.enemy.setVelocityX(160);
         }
@@ -144,36 +146,36 @@ class Enemies{
             this.enemy.setVelocityX(0);
             this.enemy.anims.play('enDie',false);
             this.enemy.once('animationcomplete',() => {
-                console.log("aguacate");
-                // this.enemy.destroy();                
+                this.enemy.destroy();                
             });            
         }
     }
 
     enemyDamage(){       
-        this.en_actualState = STATE_DAMAGE_en;
-        this.enemy.setVelocityX(0);
-        this.enemy.anims.play('enHit',false);
-        this.enemyGetHit();
+        // this.enemy.setVelocityX(0);
+        // this.enemy.anims.play('enHit',false);
+        // this.enemyGetHit();
+        this.en_actualState = STATE_DEAD_en
+        this.enemyDie();
     }
-    enemyGetHit(){
-        console.log("VIDA",this.enemy_hitPoints);
-        if(this.firstHit){
-            this.enemy_hitPoints -= 1;
-            this.firstHit = false;
-        }
-        if(this.enemy_hitPoints <= 0){
-            this.en_actualState = STATE_DEAD_en;
-            this.enemyDie();
-        }
-        else if(this.en_actualState != STATE_DEAD_en){
-            this.en_actualState = STATE_WALK_en;
-        }
-    }
+    // enemyGetHit(){
+    //     console.log("VIDA",this.enemy_hitPoints);
+    //     if(this.firstHit){
+    //         this.enemy_hitPoints -= 1;
+    //         this.firstHit = false;
+    //     }
+    //     if(this.enemy_hitPoints <= 0){
+    //         this.en_actualState = STATE_DEAD_en;
+    //         this.enemyDie();
+    //     }
+    //     else if(this.en_actualState != STATE_DEAD_en){
+    //         this.en_actualState = STATE_WALK_en;
+    //     }
+    // }
 
     updateEnemy(){
         console.log(this.en_actualState);
-        if(this.en_actualState != STATE_DEAD_en){
+        if(this.en_actualState != STATE_DEAD_en && !this.isDead){
             switch (this.en_actualState){
                 case STATE_IDLE_en:
                     this.enemyIdle();
