@@ -177,7 +177,6 @@ class Enemies{
     // }
 
     updateEnemy(){
-        console.log(this.en_actualState);
         if(this.en_actualState != STATE_DEAD_en && !this.isDead){
             switch (this.en_actualState){
                 case STATE_IDLE_en:
