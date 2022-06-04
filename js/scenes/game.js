@@ -15,6 +15,13 @@ class GameScene extends Phaser.Scene{
         this.load.image('woodSingBot','../sprites/woodSignBot.png')
         this.load.image('woodSingTop','../sprites/woodSignTop.png')
         this.load.image('tiles','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
+        this.load.image('tilesPlant','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
+        this.load.image('tilesProps','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
+        this.load.image('tilesShadowPlants','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
+        this.load.image('tilesShadow','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
+        this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
+        this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
+        this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
         this.load.tilemapTiledJSON('map',"../Map/proveMap.tmj");
         //#endregion
         // this.load.spritesheet      
@@ -40,12 +47,14 @@ class GameScene extends Phaser.Scene{
             });
             const tileset = map.addTilesetImage("TX Tileset Grass", "tiles");
             const layer = map.createLayer("prove",tileset,0,0);
-            layer.setScale(3);
-            layer.resizeWorld();
-
-            cursos = game.input.keyboard.createCursorKeys();
-
-            game.input.onDown.add(resize, this);
+            const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
+            const tilesWall = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            const layer2 = map.createLayer("prove2",tilesWall,0,0);
+            const layer3 = map.createLayer("prove2",tilesProve,0,0);
+            //layer2 = map.createLayer("prove2",tilesWall,0,0);
+            
+            
+            layer.setScale(2);
 
         //#endregion
 
@@ -64,24 +73,6 @@ class GameScene extends Phaser.Scene{
             this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
         //#endregion
         
-    }
-    resize() {
-
-        if(layer.displayWidth !== undefined)
-        {
-            var w = layer.displayWidth + 100;
-            var h = layer.displayHeight + 100;
-            layer.resize(w,h); 
-        }
-        else
-        {
-            if(layer.width < 800)
-            {
-                var w = layer.width + 100;
-                var h = layer.height + 100;
-                layer.resize(w,h);
-            }
-        }
     }
     update(){      
         this.enemy.updateEnemy();

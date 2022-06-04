@@ -44,7 +44,7 @@ class Player {
 
    
         this.attackProjectile = this.context.physics.add.sprite((this.player.x*2)-5, this.player.y, 'attackProjectile').setScale(2).refreshBody();
-
+        this.attackProjectile.body.setSize(80,35);
 
 
         this.context.key_a = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

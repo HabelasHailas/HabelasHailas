@@ -20,7 +20,7 @@ class Enemies{
         this.enemy = null;
         this.idleTimmer = 5000;
         this.en_actualState = STATE_IDLE_en;
-        this.enemy_hitPoints = 2;
+        this.enemy_hitPoints = 3;
     }
 
     preloadEnemy(){
@@ -29,7 +29,6 @@ class Enemies{
         this.enemyContext.load.spritesheet('enemyHit','../../sprites/enemigos/Hyena_hurt.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyDie','../../sprites/enemigos/Hyena_death2.png', {frameWidth: 48, frameHeight: 48});
     }
-
     createEnemy(){
         //#region enemy physics
         this.enemy = this.enemyContext.physics.add.sprite(0,0,'enemyIdle').setScale(1.5).refreshBody();
@@ -67,17 +66,14 @@ class Enemies{
     //#endregion
       
     }
-
     playAnim(anim){
         this.enemy.anims.play(anim,true);
     }
-
     changeState(state){
         if(!this.isDead){
             this.en_actualState = state;
         }
-    }
-    
+    }    
     enemyIdle(){
         this.firstHit = true;
         this.enemy.setVelocityX(0);
@@ -90,7 +86,6 @@ class Enemies{
             loop: false
         });
     }
-
     enemyWalk(){    
         this.firstHit = true;
         this.playAnim('enWalk');
@@ -141,7 +136,6 @@ class Enemies{
         // }
 
     }
-
     enemyDie(){
         this.en_actualState = STATE_DEAD_en;
         if(!this.isDead){
@@ -153,28 +147,26 @@ class Enemies{
             });            
         }
     }
-
-    enemyDamage(){       
-        // this.enemy.setVelocityX(0);
-        // this.enemy.anims.play('enHit',false);
-        // this.enemyGetHit();
+    enemyDamage(){
         this.en_actualState = STATE_DEAD_en
-        this.enemyDie();
+        this.enemy.setVelocityX(0);
+        this.enemy.anims.play('enHit',false);
+        this.enemyGetHit();
     }
-    // enemyGetHit(){
-    //     console.log("VIDA",this.enemy_hitPoints);
-    //     if(this.firstHit){
-    //         this.enemy_hitPoints -= 1;
-    //         this.firstHit = false;
-    //     }
-    //     if(this.enemy_hitPoints <= 0){
-    //         this.en_actualState = STATE_DEAD_en;
-    //         this.enemyDie();
-    //     }
-    //     else if(this.en_actualState != STATE_DEAD_en){
-    //         this.en_actualState = STATE_WALK_en;
-    //     }
-    // }
+    enemyGetHit(){
+        console.log("VIDA",this.enemy_hitPoints);
+        if(this.firstHit){
+            this.enemy_hitPoints -= 1;
+            this.firstHit = false;
+        }
+        if(this.enemy_hitPoints <= 0){
+            this.en_actualState = STATE_DEAD_en;
+            this.enemyDie();
+        }
+        else if(this.en_actualState != STATE_DEAD_en){
+            this.en_actualState = STATE_WALK_en;
+        }
+    }
 
     updateEnemy(){
         if(this.en_actualState != STATE_DEAD_en && !this.isDead){
