@@ -12,18 +12,19 @@ class GameScene extends Phaser.Scene{
        
     preload(){
         //#region load del mapa
-        this.load.image('woodSingBot','../sprites/woodSignBot.png')
-        this.load.image('woodSingTop','../sprites/woodSignTop.png')
-        this.load.image('tiles','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
-        this.load.image('tilesPlant','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
-        this.load.image('tilesProps','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
-        this.load.image('tilesShadowPlants','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
-        this.load.image('tilesShadow','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
-        this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
-        this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
-        this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
-        this.load.tilemapTiledJSON('map',"../Map/proveMap.tmj");
+            this.load.image('woodSingBot','../sprites/woodSignBot.png')
+            this.load.image('woodSingTop','../sprites/woodSignTop.png')
+            this.load.image('tilesGrass','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
+            this.load.image('tilesPlant','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
+            this.load.image('tilesProps','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
+            this.load.image('tilesShadowPlants','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
+            this.load.image('tilesShadow','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
+            this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
+            this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
+            this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
+            this.load.tilemapTiledJSON('map',"../Map/TileMap.tmj");
         //#endregion
+        
         // this.load.spritesheet      
         this.player.preloadPlayer();  
         this.enemy.preloadEnemy();  
@@ -45,15 +46,16 @@ class GameScene extends Phaser.Scene{
                 tileWidth: 32, 
                 tileHeight: 32
             });
-            const tileset = map.addTilesetImage("TX Tileset Grass", "tiles");
-            const layer = map.createLayer("prove",tileset,0,0);
-            const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
-            const tilesWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
-            const tilesProp = map.addTilesetImage("TX Props", "tilesProps");
-            const layer2 = map.createLayer("prove2",tilesWalls,0,0);
+            const tilesetGrass = map.addTilesetImage("TX Tileset Grass", "tilesGrass");
+            // const layer = map.createLayer("prove",tileset,0,0);
+            // const tilesProve = map.addTilesetImage("TX Struct", "tilesStruct");
+            // const tilesWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            // const tilesProp = map.addTilesetImage("TX Props", "tilesProps");
+            // const layer2 = map.createLayer("prove2",tilesWalls,0,0);
+            const layerGrass = map.createLayer("Grass",tilesetGrass,0,0);
             
             
-            layer.setScale(2);
+            layerGrass.setScale(2);
 
         //#endregion
 
