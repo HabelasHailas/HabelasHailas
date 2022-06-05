@@ -170,7 +170,8 @@ class GameScene extends Phaser.Scene{
         if(player.frame.name == 0)  return;
         this.enemy[parseInt(enemy.name)].changeState(3);
     }
-    enemyHits(player,enemy){ //colision del enemigo vs la bruja
+    enemyHits(player,enemy){ //colision del enemigo vs la bruj
+        console.log(enemy.name);
         var sideCollided = '';
         if(player.body.touching.up){ sideCollided = 't';}
         if(player.body.touching.down){ sideCollided = 'd';}
