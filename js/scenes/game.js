@@ -1,13 +1,22 @@
 "use strict";
 
+var saveBool = false;
+
 class GameScene extends Phaser.Scene{
+    jsonDemon = localStorage.getItem("demon") || '0';
+    jsonPoints = localStorage.getItem("points") || 0;
+    jsonPlayer = localStorage.getItem("player") || 100;
+    demonOptions = JSON.parse(this.jsonDemon);
+    playerPoints = JSON.parse(this.jsonPlayer);
+    
+    
+
     constructor(){
         super('GameScene');
-        // this.player = null;
-        this.player = new Player(this);
+        this.player = new Player(this,this.playerPoints);
         this.enemy = [];
         this.demon = [];
-        this.points = 0;
+        this.points = JSON.parse(this.jsonPoints);
         this.banner = null;
         this.canWin = false;
         this.winCollision = null;
@@ -38,9 +47,11 @@ class GameScene extends Phaser.Scene{
         this.load.image('ManaMAX','../sprites/HUD/woodSignTop2.png');
 
         this.player.preloadPlayer(); 
-
         for(var i = 0; i < 4; i++){
-            this.demon[i] = new Demon(this,i);
+            if(this.demonOptions == '0')
+                this.demon[i] = new Demon(this,i,null);
+            else
+                this.demon[i] = new Demon(this,i,this.demonOptions[i]);
             this.demon[i].preloadDemon();
         }
         for(var i = 0; i < 10; i++){
@@ -98,8 +109,8 @@ class GameScene extends Phaser.Scene{
             for(var i = 0; i < 10; i++){ this.enemy[i].createEnemy(); }
             
             this.winCollision = this.physics.add.sprite(1604, 470).setScale(3).refreshBody();
-
-
+            
+            
             //#region COLISIONES
             for(var i = 0; i < 4; i++)  this.physics.add.collider(this.player, this.demon[i]); 
             for(var i = 0; i < 10; i++)  this.physics.add.collider(this.player.attackProjectile, this.enemy[i]); 
@@ -107,11 +118,11 @@ class GameScene extends Phaser.Scene{
             this.physics.add.collider(this.player, this.winCollision); 
             
             for(var i = 0; i < 10; i++)  
-                this.physics.add.overlap(this.player.attackProjectile,this.enemy[i].enemy,(body1,body2)=>this.attackDone(body1,body2));
+            this.physics.add.overlap(this.player.attackProjectile,this.enemy[i].enemy,(body1,body2)=>this.attackDone(body1,body2));
             for(var i = 0; i < 10; i++)  
-                this.physics.add.overlap(this.player.player,this.enemy[i].enemy,(player,enemy)=>this.enemyHits(player,enemy));
+            this.physics.add.overlap(this.player.player,this.enemy[i].enemy,(player,enemy)=>this.enemyHits(player,enemy));
             for(var i = 0; i < 4; i++)  
-                this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
+            this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
             this.physics.add.overlap(this.player.player,this.winCollision,(player,coll)=>this.winCondition(player,coll));
             
             
@@ -126,7 +137,7 @@ class GameScene extends Phaser.Scene{
             this.cameras.main.setBounds(0,0,3120,2370);
             this.physics.world.setBounds(0,0,3120,2370);
             this.cameras.main.startFollow(this.player.player);
-
+            
             this.time.addEvent({
                 delay: 8000,
                 callback: () =>{
@@ -137,8 +148,9 @@ class GameScene extends Phaser.Scene{
             
             this.HUDVida_fons = this.add.sprite(120,20,'VidaMIN').setScrollFactor(0);
             this.HUDVida_actual = this.add.sprite(120,20,'VidaMAX').setScrollFactor(0);
+            this.actualitzarVida(this.player.hitPoints,this.player.MAX_VIDA);
             
-    }
+        }
     update(){     
 
         this.player.updateStates();
@@ -147,6 +159,11 @@ class GameScene extends Phaser.Scene{
         if(this.points == 4 && this.banner.visible == false){
             this.showEndGameMessage();
             this.canWin = true;
+        }
+
+        if(saveBool){
+            this.saveData();
+            saveBool = false;
         }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
@@ -169,6 +186,12 @@ class GameScene extends Phaser.Scene{
                 delay: 1500,
                 callback: () =>{
                     this.demon[parseInt(demon.name)].collectDemon();
+                    // for (var i = 0; i < 4; i++){
+                    //     if (this.demon[i].isCollected){
+                            
+                    //     }
+                    // }
+                    
                 },
                 loop: false
             });
@@ -193,6 +216,13 @@ class GameScene extends Phaser.Scene{
     actualitzarVida(vidaActual, vidaMax){
         let crop = vidaActual/vidaMax * 160;
         this.HUDVida_actual.setCrop(0,0,crop,16);
+    }
+    saveData(){
+        var demonsData = []
+        for(var i = 0; i < 4; i++) demonsData.push(this.demon[i].getSaveData());
+        localStorage.setItem('demon',JSON.stringify(demonsData));
+        localStorage.setItem('points',JSON.stringify(this.points));
+        localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
     }
 }
 

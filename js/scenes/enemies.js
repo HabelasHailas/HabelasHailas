@@ -25,6 +25,14 @@ class Enemies{
         this.enemy_hitPoints = 3;
         this.isDead = false;
     }
+    getSaveDataEn(){
+        var enemyData = {
+            enemy: this.enemy,
+            index: this.en_index,
+            dead: this.isDead
+        };
+        return enemyData;
+    }
     preloadEnemy(){
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
