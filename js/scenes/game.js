@@ -1,13 +1,18 @@
 "use strict";
 
+var jsonPoints = localStorage.getItem("points");
+var jsonDemon = localStorage.getItem("demon");
+var jsonPlayer = localStorage.getItem("player");
+
+var points = JSON.parse(jsonPoints) || 0;
+var saveBool = false;
 class GameScene extends Phaser.Scene{
     constructor(){
         super('GameScene');
         // this.player = null;
-        this.player = new Player(this);
+        this.player = JSON.parse(jsonPlayer) || new Player(this);
         this.enemy = [];
         this.demon = [];
-        this.points = 0;
         this.banner = null;
         this.canWin = false;
         this.winCollision = null;
@@ -32,14 +37,18 @@ class GameScene extends Phaser.Scene{
         this.load.image('banner_fin','../sprites/banner_final.png');
 
         this.player.preloadPlayer(); 
-
-        for(var i = 0; i < 4; i++){
-            this.demon[i] = new Demon(this,i);
-            this.demon[i].preloadDemon();
+        console.log(JSON.parse(jsonDemon));
+        if(this.demon.length === 0){
+            for(var i = 0; i < 4; i++){
+                this.demon[i] = new Demon(this,i,jsonDemon);
+                this.demon[i].preloadDemon();
+            }
         }
-        for(var i = 0; i < 10; i++){
-            this.enemy[i] = new Enemies(this,i);
-            this.enemy[0].preloadEnemy();   
+        if(this.enemy.length === 0){
+            for(var i = 0; i < 10; i++){
+                this.enemy[i] = new Enemies(this,i);
+                this.enemy[0].preloadEnemy();   
+            }
         }
 
         game.scale.pageAlignHorizontally = true;
@@ -88,7 +97,7 @@ class GameScene extends Phaser.Scene{
             this.player.createPlayer();
             for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
             for(var i = 0; i < 10; i++){ this.enemy[i].createEnemy(); }
-            
+        
             this.winCollision = this.physics.add.sprite(1604, 470).setScale(3).refreshBody();
 
 
@@ -132,9 +141,13 @@ class GameScene extends Phaser.Scene{
         this.player.updateStates();
         for(var i = 0; i < 10; i++){ this.enemy[i].updateEnemy(); }
 
-        if(this.points == 4 && this.banner.visible == false){
+        if(points == 4 && this.banner.visible == false){
             this.showEndGameMessage();
             this.canWin = true;
+        }
+        if(saveBool){
+            this.saveInfo();
+            saveBool = false;
         }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
@@ -177,6 +190,11 @@ class GameScene extends Phaser.Scene{
         if(this.canWin){
             window.location.assign('../index.html');
         }
+    }
+    saveInfo(){
+        // localStorage.setItem("player",JSON.stringify(this.player));
+        localStorage.setItem("points",JSON.stringify(points));
+        localStorage.setItem("demon",JSON.stringify(this.demon.getSaveData));
     }
 }
 

@@ -8,6 +8,15 @@ class Demon{
         this.hasWaved = false;
         this.isCollected = false;
     }
+    getSaveData(){
+        var enemyData = {
+            demon: this.demon,
+            context: this.demContext,
+            index: this.index,
+            saved: this.isCollected
+        };
+        return enemyData;
+    }
     preloadDemon(){
         
         switch(this.index){
@@ -69,7 +78,7 @@ class Demon{
                 this.demon.once('animationcomplete',() => {
                     this.demon.destroy();     
                 }); 
-            this.demContext.points += 1;
+            points += 1;
         }
     }
 }

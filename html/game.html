@@ -4,20 +4,22 @@
         <link rel="stylesheet" href="../css/style.css">
         <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
         <script src="../js/scenes/player.js"></script>
+        <script src="../js/loader.js"></script>
         <script src="../js/scenes/enemies.js"></script>
-        <script src="../js/scenes/demon.js"></script>
-        <script src="../js/scenes/game.js"></script>
-        <script src="../js/scenes/pauseMenu.js"></script>
         <script src="../js/menuController.js"></script>
-        <script src="../js/phaserGame_controller.js"></script>
+        <script src="../js/scenes/game.js"></script>
+        <script src="../js/scenes/demon.js"></script>
+        <script src="../js/scenes/pauseMenu.js"></script>
         <link rel="icon" type="image/x-icon" href="../sprites/favicon_witch2.ico">
         <title> Habeilas hailas - Game</title>
     </head>
     <body>
         <div id="game_area"> </div>
         <div id="options_id">
-			<button class="menu-object buttonSave" v-on:click="save"> </button>
-			<button class="menu-object buttonBack" v-on:click="back"> </button>
+            <button class="menu-object buttonSave" onclick="save()"> </button>
+			<button class="menu-object buttonBack" onclick="back()"> </button>
 		</div>		
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="../js/phaserGame_controller.js"></script>
 </html>

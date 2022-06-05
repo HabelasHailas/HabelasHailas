@@ -263,8 +263,10 @@ class Player {
         }
         this.attackProjectile.setFrame(0);
     }    
+    getHitPoints(){
+        return this.hitPoints;
+    }
     updateStates(){
-        console.log("X: ",this.player.x," Y:",this.player.y);
         if(!this.isDead){
             switch (this.actualState){
                 case STATE_IDLE:

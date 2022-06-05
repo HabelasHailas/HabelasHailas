@@ -1,28 +1,45 @@
-var options = function(){	
-	var vue_instance = new Vue({
-		el: "#options_id",
-		created: function(){
-		},
-		watch: {
-		},
-		methods: { 
-			start: function(){
-                loadpage("/html/game.html");
-			},
-            load: function(){
-                loadpage("../index.html");
-			},
-            options: function(){
-                loadpage("../index.html");
-			},
-			save: function(){
-				//save();
-				loadpage("../index.html");
-			},
-			back: function(){
-				loadpage("../index.html");
-			}
-		}
-	});
-}();
+// var options = function(){	
+// 	var vue_instance = new Vue({
+// 		el: "#options_id",
+// 		created: function(){
+// 		},
+// 		watch: {
+// 		},
+// 		methods: { 
+// 			start: function(){
+//                 loadpage("../html/game.html");
+// 			},
+//             load: function(){
+//                 loadpage("../index.html");
+// 			},
+//             options: function(){
+//                 loadpage("../index.html");
+// 			},
+// 			save: function(){
+// 				//save();
+// 				loadpage("../index.html");
+// 			},
+// 			back: function(){
+// 				loadpage("../index.html");
+// 			}
+// 		}
+// 	});
+// }();
+
+function start(){
+	loadpage("../html/game.html");
+	console.log("CLIIK");
+}
+function load(){
+	loadpage("../index.html");
+}
+function options(){
+	loadpage("../index.html");
+}
+function save(){
+	saveBool = true;
+}
+function back(){
+	loadpage("../index.html");
+}
 
