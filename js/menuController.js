@@ -29,19 +29,19 @@
 function start(){
 	localStorage.clear();
 	saveBool = false;
-	loadpage("../html/game.html");
+	loadpage("https://habelashailas.github.io/HabelasHailas/html/game.html");
 
 }
 function load(){
-	loadpage("../html/game.html");
+	loadpage("https://habelashailas.github.io/HabelasHailas/html/game.html");
 }
 function options(){
-	loadpage("../index.html");
+	loadpage("https://habelashailas.github.io/HabelasHailas/index.html");
 }
 function save(){
 	saveBool = true;
 }
 function back(){
-	loadpage("../index.html");
+	loadpage("https://habelashailas.github.io/HabelasHailas/index.html");
 }
 
