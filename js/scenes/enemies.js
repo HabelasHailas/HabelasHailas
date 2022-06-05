@@ -49,17 +49,17 @@ class Enemies{
             case 1: 
                 this.enemy.setPosition(1824,813); 
                 this.pointOne = 1824;
-                this.pointwo = 2385;
+                this.pointwo = 2322;
                 break;
             case 2: 
                 this.enemy.setPosition(1352,1285); 
-                this.pointOne = 1352;
-                this.pointwo = 2207;
+                this.pointOne = 1035;
+                this.pointwo = 1892;
                 break;
             case 3: 
-                this.enemy.setPosition(2129,1488); 
-                this.pointOne = 1679;
-                this.pointwo = 2129;
+                this.enemy.setPosition(2278,1603); 
+                this.pointOne = 2278;
+                this.pointwo = 2678;
                 break;
             case 4: 
                 this.enemy.setPosition(813,1700); 
@@ -67,9 +67,9 @@ class Enemies{
                 this.pointwo = 1441;
                 break;
             case 5: 
-                this.enemy.setPosition(707,1613); 
-                this.pointOne = 707;
-                this.pointwo = 1092;
+                this.enemy.setPosition(1257,1856); 
+                this.pointOne = 1257;
+                this.pointwo = 1722;
                 break;
             case 6: 
                 this.enemy.setPosition(245,1868); 
