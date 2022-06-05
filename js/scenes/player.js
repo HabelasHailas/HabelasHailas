@@ -2,7 +2,7 @@
 
 const STATE_IDLE = 0;
 const STATE_WALK = 1;
-const STATE_DASH = 2;
+const STATE_CHARGE = 2;
 const STATE_ATTACK = 3;
 const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
@@ -13,10 +13,14 @@ class Player {
     key_d = null;
     key_w = null;
     key_e = null;
+    key_q = null;
 
-    isAttacked = false
+    isAttacked = false;
+    isCharging = false;
     collSide = '';
     
+    velDiagonal = 113; //113
+    velHorizontal = 300; //160
     attackProjectile;
 
     constructor(context) {
@@ -24,21 +28,21 @@ class Player {
         this.player = null;
         this.hitPoints = 100;
         this.actualState = STATE_IDLE;
+        this.isDead = false;
 
-        this.key_k = null;
     }
     preloadPlayer() {   
         this.context.load.spritesheet('characterIdle', '../../sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
         this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
         this.context.load.spritesheet('characterDamage', '../../sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
-        // this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_charge.png', { frameWidth: 48, frameHeight: 48 });
+        this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death_2.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterCharge', '../../sprites/character/B_witch_charge.png', { frameWidth: 48, frameHeight: 48 });
         
         this.context.load.spritesheet('attackProjectile', '../../sprites/character/B_witch_attack_projectile.png', { frameWidth: 80, frameHeight: 46 });
     }
     createPlayer() {
-        this.player = this.context.physics.add.sprite(100, 450, 'characterIdle').setScale(2).refreshBody();
+        this.player = this.context.physics.add.sprite(1604, 449, 'characterIdle').setScale(2).refreshBody();
         this.player.body.setSize(18, 40); //tamaño caja colision
         this.player.setCollideWorldBounds(true);
 
@@ -51,9 +55,8 @@ class Player {
         this.context.key_d = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.context.key_w = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.context.key_e = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.context.key_q = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
-        //SOLO PARA DEBUGUEAR!!!! **********************
-        this.key_k = this.context.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.K);
 
         //#region ANIMACIONES JUGADOR
         this.context.anims.create({
@@ -86,7 +89,12 @@ class Player {
         });
         this.context.anims.create({
             key: 'death',
-            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 4 }),
+            frames: this.context.anims.generateFrameNumbers('characterDeath', { start: 0, end: 11 }),
+            frameRate: 10
+        });
+        this.context.anims.create({
+            key: 'charge',
+            frames: this.context.anims.generateFrameNumbers('characterCharge', { start: 0, end: 4 }),
             frameRate: 10
         });
         this.context.anims.create({
@@ -136,62 +144,68 @@ class Player {
         }     
     }
     dead(){
-        this.player.setVelocityX(0);
-        this.player.setVelocityY(0);
-        this.player.anims.play('death',false);
+        if(!this.isDead){
+            this.isDead = true;
+            this.player.setVelocityX(0);
+            this.player.setVelocityY(0);
+            this.player.anims.play('death',false);
+            this.player.once('animationcomplete',() => {
+                //LOAD DEATH SCREEN
+            });
+        }
     }
     movePlayer() {
         if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Derecha
-            this.player.setVelocityX(160);
+            this.player.setVelocityX(this.velHorizontal);
             this.player.setVelocityY(0);
             this.player.anims.play('right', true);
             this.player.flipX = false;
         }
         else if (this.context.key_d.isDown && this.context.key_w.isDown && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Arriba + Derecha
-            this.player.setVelocityX(113);
-            this.player.setVelocityY(-113);
+            this.player.setVelocityX(this.velDiagonal);
+            this.player.setVelocityY(-this.velDiagonal);
             this.player.anims.play('right', true);
             this.player.flipX = false;
         }
         else if (this.context.key_d.isUp && this.context.key_w.isDown && this.context.key_s.isUp && this.context.key_a.isUp) {
             // Arriba
             this.player.setVelocityX(0);
-            this.player.setVelocityY(-160);
+            this.player.setVelocityY(-this.velHorizontal);
             this.player.anims.play('right', true);
         }
         else if (this.context.key_d.isUp && this.context.key_w.isDown && this.context.key_s.isUp && this.context.key_a.isDown) {
             // Arriba + Izquierda
-            this.player.setVelocityX(-113);
-            this.player.setVelocityY(-113);
+            this.player.setVelocityX(-this.velDiagonal);
+            this.player.setVelocityY(-this.velDiagonal);
             this.player.anims.play('left', true);
             this.player.flipX = true;
         }
         else if (this.context.key_d.isUp && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isDown) {
             // Izquierda
-            this.player.setVelocityX(-160);
+            this.player.setVelocityX(-this.velHorizontal);
             this.player.setVelocityY(0);
             this.player.anims.play('left', true);
             this.player.flipX = true;
         }
         else if (this.context.key_d.isUp && this.context.key_w.isUp && this.context.key_s.isDown && this.context.key_a.isDown) {
             // Abajo + Izquierda
-            this.player.setVelocityX(-113);
-            this.player.setVelocityY(113);
+            this.player.setVelocityX(-this.velDiagonal);
+            this.player.setVelocityY(this.velDiagonal);
             this.player.anims.play('left', true);
             this.player.flipX = true;
         }
         else if (this.context.key_d.isUp && this.context.key_w.isUp && this.context.key_s.isDown && this.context.key_a.isUp) {
             // Abajo
             this.player.setVelocityX(0);
-            this.player.setVelocityY(160);
+            this.player.setVelocityY(this.velHorizontal);
             this.player.anims.play('right', true);
         }
         else if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isDown && this.context.key_a.isUp) {
             // Abajo + Derecha
-            this.player.setVelocityX(113);
-            this.player.setVelocityY(113);
+            this.player.setVelocityX(this.velDiagonal);
+            this.player.setVelocityY(this.velDiagonal);
             this.player.anims.play('right', true);
             this.player.flipX = false;
         }
@@ -207,13 +221,30 @@ class Player {
         this.player.setVelocityX(0);
         this.player.setVelocityY(0);
         this.player.body.setOffset(6, 3);
+        
         this.player.anims.play('idle', true);
+
         if(this.context.key_d.isDown || this.context.key_w.isDown || this.context.key_s.isDown || this.context.key_a.isDown){
             this.actualState = STATE_WALK;
         }
         else if(this.context.key_e.isDown){
             this.actualState = STATE_ATTACK;
         }
+        else if(this.context.key_q.isDown){
+            this.actualState = STATE_CHARGE;
+        }
+    }
+    chargingState(){
+        this.isCharging = true;
+        this.player.anims.play('charge', true);
+        this.context.time.addEvent({
+            delay: 2000,
+            callback: () =>{
+                this.actualState = STATE_IDLE;
+                this.isCharging = false;
+            },
+            loop: false
+        });
     }
     changeState(state, col){
         if(this.actualState != STATE_DEAD){
@@ -233,32 +264,28 @@ class Player {
         this.attackProjectile.setFrame(0);
     }    
     updateStates(){
-        if(this.key_k.isDown){
-            this.actualState = 6;
-            this.player.anims.play('death',false);
-            this.player.once('animationcomplete',() => {
-                this.actualState = STATE_IDLE;
-            });
-        }
-
-        switch (this.actualState){
-            case STATE_IDLE:
-                this.idleState();
-                break;
-            case STATE_WALK:
-                this.movePlayer();
-                break;
-            case STATE_DASH:
-                break;
-            case STATE_ATTACK:
-                this.attack();
-                break;
-            case STATE_DAMAGE:
-                this.takeDamage();
-                break;
-            case STATE_DEAD:
-                this.dead();
-                break;
+        console.log("X: ",this.player.x," Y:",this.player.y);
+        if(!this.isDead){
+            switch (this.actualState){
+                case STATE_IDLE:
+                    this.idleState();
+                    break;
+                case STATE_WALK:
+                    this.movePlayer();
+                    break;
+                case STATE_CHARGE:
+                    this.chargingState();
+                    break;
+                case STATE_ATTACK:
+                    this.attack();
+                    break;
+                case STATE_DAMAGE:
+                    this.takeDamage();
+                    break;
+                case STATE_DEAD:
+                    this.dead();
+                    break;
+            }
         }
     }
 }

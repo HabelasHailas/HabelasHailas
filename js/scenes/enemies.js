@@ -10,19 +10,20 @@ const STATE_FOLLOW_en = 5;
 
 class Enemies{
     firstWalk = true;
-    pointOne = 100;
-    pointwo = 600;
+    pointOne = 0;
+    pointwo = 0;
     fromHit = false;
     firstHit = true;
-    isDead = false;
+    
 
-    constructor(context){
+    constructor(context, index){
         this.enemyContext = context;
-        this.nearCollision = null;
         this.enemy = null;
-        this.idleTimmer = 5000;
+        this.en_index = index;
+        this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
+        this.isDead = false;
     }
     preloadEnemy(){
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
@@ -33,15 +34,65 @@ class Enemies{
     createEnemy(){
         //#region enemy physics
         this.enemy = this.enemyContext.physics.add.sprite(0,0,'enemyIdle').setScale(1.5).refreshBody();
-        this.enemy.setPosition(100,100);
         this.enemy.body.setSize(40, 30);       
         this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
 
-        this.nearCollision = this.enemyContext.physics.add.sprite(this.enemy.x, this.enemy.y).setScale(2).refreshBody();
-        this.nearCollision.body.setSize(150,150);
-        //#endregion  
 
+        switch(this.en_index){
+            case 0: 
+                this.enemy.setPosition(1339,174); 
+                this.pointOne = 1339;
+                this.pointwo = 1975;
+                break;
+            case 1: 
+                this.enemy.setPosition(1824,813); 
+                this.pointOne = 1824;
+                this.pointwo = 2385;
+                break;
+            case 2: 
+                this.enemy.setPosition(1352,1285); 
+                this.pointOne = 1352;
+                this.pointwo = 2207;
+                break;
+            case 3: 
+                this.enemy.setPosition(2129,1488); 
+                this.pointOne = 1679;
+                this.pointwo = 2129;
+                break;
+            case 4: 
+                this.enemy.setPosition(813,1746); 
+                this.pointOne = 813;
+                this.pointwo = 1441;
+                break;
+            case 5: 
+                this.enemy.setPosition(707,1613); 
+                this.pointOne = 707;
+                this.pointwo = 1092;
+                break;
+            case 6: 
+                this.enemy.setPosition(245,1868); 
+                this.pointOne = 245;
+                this.pointwo = 665;
+                break;
+            case 7: 
+                this.enemy.setPosition(160,971); 
+                this.pointOne = 160;
+                this.pointwo = 935;
+                break;
+            case 8: 
+                this.enemy.setPosition(409,439); 
+                this.pointOne = 409;
+                this.pointwo = 794;
+                break;
+            case 9: 
+                this.enemy.setPosition(46,328); 
+                this.pointOne = 46;
+                this.pointwo = 376;
+                break;            
+        }
+        this.enemy.name = String(this.en_index);
+        //#endregion  
         //#region animaciones enemigo
         this.enemyContext.anims.create({
             key:'enIdle',
@@ -68,8 +119,8 @@ class Enemies{
             repeat: 0
          });
     //#endregion
-      
-    }
+    }     
+    
     playAnim(anim){
         this.enemy.anims.play(anim,true);
     }
@@ -108,37 +159,6 @@ class Enemies{
         else{
             this.enemy.setVelocityX(-160);
         }
-        // if(!this.fromHit){
-        //     if(this.enemy.x <= this.pointOne){ 
-        //         if(this.firstWalk){
-        //             this.enemy.flipX = true;
-        //             this.enemy.setVelocityX(160);
-        //             this.firstWalk = false;
-        //         }
-        //         else{
-        //             this.firstWalk = true;
-        //             this.en_actualState = STATE_IDLE_en; 
-        //         }    
-        //     }
-        //     else if (this.enemy.x >= this.pointwo){
-        //         if(this.firstWalk){
-        //             this.enemy.flipX = false;
-        //             this.enemy.setVelocityX(-160);
-        //             this.firstWalk = false;
-        //         }
-        //         else{
-        //             this.firstWalk = true;
-        //             this.en_actualState = STATE_IDLE_en; 
-        //         }
-        //     }
-        // }
-        // else{
-        //     if(this.enemy.flipX) this.enemy.setVelocityX(160);
-        //     else  this.enemy.setVelocityX(-160);
-        //     this.fromHit = false;
-        
-        // }
-
     }
     enemyDie(){
         this.en_actualState = STATE_DEAD_en;
@@ -158,7 +178,7 @@ class Enemies{
         this.enemyGetHit();
     }
     enemyGetHit(){
-        console.log("VIDA",this.enemy_hitPoints);
+        console.log("VIDA ENEMIC",this.enemy_hitPoints);
         if(this.firstHit){
             this.enemy_hitPoints -= 1;
             this.firstHit = false;
@@ -167,32 +187,33 @@ class Enemies{
             this.en_actualState = STATE_DEAD_en;
             this.enemyDie();
         }
-        else if(this.en_actualState != STATE_DEAD_en){
+        else{
             this.en_actualState = STATE_WALK_en;
         }
     }
+    enemyAttack(){
 
+    }
     updateEnemy(){
-        this.nearCollision.setPosition(this.enemy.x, this.enemy.y); 
-        if(this.en_actualState != STATE_DEAD_en && !this.isDead){
-            switch (this.en_actualState){
-                case STATE_IDLE_en:
-                    this.enemyIdle();
-                    break;
-                case STATE_WALK_en:
-                    this.enemyWalk();
-                    break;
-                case STATE_ATTACK_en:
-                    // this.attack();
-                    break;
-                case STATE_DAMAGE_en:
-                    this.enemyDamage();
-                    break;
-                default:
-                    this.enemy.setFrame(0);
-                    break;
-            }
+        // this.nearCollision.setPosition(this.enemy.x, this.enemy.y); 
+        switch (this.en_actualState){
+            case STATE_IDLE_en:
+                this.enemyIdle();
+                break;
+            case STATE_WALK_en:
+                this.enemyWalk();
+                break;
+            case STATE_ATTACK_en:
+                this.enemyAttack();
+                break;
+            case STATE_DAMAGE_en:
+                this.enemyDamage();
+                break;
+            default:
+                this.enemy.setFrame(0);
+                break;
         }
+        
     }
 }
 

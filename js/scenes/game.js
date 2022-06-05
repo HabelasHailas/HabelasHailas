@@ -5,9 +5,12 @@ class GameScene extends Phaser.Scene{
         super('GameScene');
         // this.player = null;
         this.player = new Player(this);
-        this.enemy = new Enemies(this);
+        this.enemy = [];
         this.demon = [];
         this.points = 0;
+        this.banner = null;
+        this.canWin = false;
+        this.winCollision = null;
     }
        
     preload(){
@@ -25,20 +28,25 @@ class GameScene extends Phaser.Scene{
             this.load.tilemapTiledJSON('map',"../Map/TileMap.tmj");
         //#endregion
         
-        // this.load.spritesheet      
-        this.player.preloadPlayer();  
-        this.enemy.preloadEnemy();  
+        this.load.image('banner_ini','../sprites/banner_inicio.png');
+        this.load.image('banner_fin','../sprites/banner_final.png');
+
+        this.player.preloadPlayer(); 
 
         for(var i = 0; i < 4; i++){
             this.demon[i] = new Demon(this,i);
             this.demon[i].preloadDemon();
         }
+        for(var i = 0; i < 10; i++){
+            this.enemy[i] = new Enemies(this,i);
+            this.enemy[0].preloadEnemy();   
+        }
 
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.scale.refresh();         
+    
     }
-
     create(){   
         //#region crear mapa tiles
             const map = this.make.tilemap({
@@ -74,31 +82,64 @@ class GameScene extends Phaser.Scene{
             layerProps2.setScale(1.3);
             layerPlants2.setScale(1.3);
 
-        //#endregion
+            //#endregion
+           
+            this.banner = this.add.sprite(450,300,'banner_ini').setScrollFactor(0);
+            this.player.createPlayer();
+            for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
+            for(var i = 0; i < 10; i++){ this.enemy[i].createEnemy(); }
+            
+            this.winCollision = this.physics.add.sprite(1604, 470).setScale(3).refreshBody();
 
-        this.player.createPlayer();
-        this.enemy.createEnemy(); 
-        for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
-        
-        //#region COLI
-        this.physics.add.collider(this.player.attackProjectile, this.enemy); //enemigo vs atac
-        this.physics.add.collider(this.player, this.enemy); //enemigo vs bruja
-        for(var i = 0; i < 4; i++)  this.physics.add.collider(this.player, this.demon[i]); 
-        
-        this.physics.add.overlap(this.player.attackProjectile,this.enemy.enemy,(body1,body2)=>this.attackDone(body1,body2));
-        this.physics.add.overlap(this.player.player,this.enemy.enemy,(player,enemy)=>this.enemyHits(player,enemy));
-        for(var i = 0; i < 4; i++)  
-            this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
-        //#endregion
-        
+
+            //#region COLISIONES
+            for(var i = 0; i < 4; i++)  this.physics.add.collider(this.player, this.demon[i]); 
+            for(var i = 0; i < 10; i++)  this.physics.add.collider(this.player.attackProjectile, this.enemy[i]); 
+            for(var i = 0; i < 10; i++)  this.physics.add.collider(this.player, this.enemy[i]);
+            this.physics.add.collider(this.player, this.winCollision); 
+            
+            for(var i = 0; i < 10; i++)  
+                this.physics.add.overlap(this.player.attackProjectile,this.enemy[i].enemy,(body1,body2)=>this.attackDone(body1,body2));
+            for(var i = 0; i < 10; i++)  
+                this.physics.add.overlap(this.player.player,this.enemy[i].enemy,(player,enemy)=>this.enemyHits(player,enemy));
+            for(var i = 0; i < 4; i++)  
+                this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
+            this.physics.add.overlap(this.player.player,this.winCollision,(player,coll)=>this.winCondition(player,coll));
+            
+            
+            //layerWalls.setCollisionBetween(0,166);
+            //layerWalls.setCollisionByProperty({ Collide: true });
+            //layerWalls.setImmovable(true)
+            //this.physics.add.collider(this.player, layerWalls);
+            
+            //#endregion
+            
+            
+            this.cameras.main.setBounds(0,0,3120,2370);
+            this.physics.world.setBounds(0,0,3120,2370);
+            this.cameras.main.startFollow(this.player.player);
+
+            this.time.addEvent({
+                delay: 8000,
+                callback: () =>{
+                    this.banner.visible = false;
+                },
+                loop: false
+            });
+            
     }
     update(){      
-        this.enemy.updateEnemy();
         this.player.updateStates();
+        for(var i = 0; i < 10; i++){ this.enemy[i].updateEnemy(); }
+
+        if(this.points == 4 && this.banner.visible == false){
+            this.showEndGameMessage();
+            this.canWin = true;
+        }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
         if(player.frame.name == 0)  return;
-        this.enemy.changeState(3);
+        this.enemy[parseInt(enemy.name)].changeState(3);
     }
     enemyHits(player,enemy){ //colision del enemigo vs la bruja
         var sideCollided = '';
@@ -109,8 +150,33 @@ class GameScene extends Phaser.Scene{
 
         this.player.changeState(STATE_DAMAGE, sideCollided);
     }
-    enterDemon(player,demon){
+    enterDemon(player,demon){        
         this.demon[parseInt(demon.name)].enterDemonRange();
+        if(this.player.isCharging){
+            this.time.addEvent({
+                delay: 1500,
+                callback: () =>{
+                    this.demon[parseInt(demon.name)].collectDemon();
+                },
+                loop: false
+            });
+        }
+    }
+    showEndGameMessage(){
+        this.banner = this.add.sprite(450,300,'banner_fin').setScrollFactor(0);
+        this.banner.visible = true;
+        this.time.addEvent({
+            delay: 6000,
+            callback: () =>{
+                this.banner.visible = false;
+            },
+            loop: false
+        });
+    }
+    winCondition(pl,col){
+        if(this.canWin){
+            window.location.assign('../index.html');
+        }
     }
 }
 

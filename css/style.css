@@ -2,10 +2,11 @@ body{
 	background-color: rgb(34, 32, 37); 
 }
 #game_area{
-   margin: auto;
-   margin-top: auto;
-   /* padding: 10px; */
-   width: 50%;    
+   margin-top: 5%;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 50%;
 }
 
 .menu-object{
@@ -89,7 +90,7 @@ body{
 }
 .buttonOptions:hover{
 	box-shadow: 0 0px 20px rgba(161, 136, 78, 0.5);
-	background-image: url(../sprites/menuCards/optionsHover.png);
+	background-image: url(../sprites/menuCards/controlsHover.png);
 	transform: scale(.95);
 }
 
