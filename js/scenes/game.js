@@ -44,6 +44,11 @@ class GameScene extends Phaser.Scene{
         this.load.image('ManaMIN','../sprites/HUD/woodSignTop4.png');
         this.load.image('ManaMAX','../sprites/HUD/woodSignTop2.png');
 
+        this.load.image('demon4-red','../sprites/demonios/Demon_Faces1.png');
+        this.load.image('demon3-purple','../sprites/demonios/Demon_Faces2.png');
+        this.load.image('demon1-orange','../sprites/demonios/Demon_Faces3.png');
+        this.load.image('demon0-blue','../sprites/demonios/Demon_Faces4.png');
+
         this.player.preloadPlayer(); 
         for(var i = 0; i < 4; i++){
             if(this.demonOptions == '0')
@@ -143,6 +148,23 @@ class GameScene extends Phaser.Scene{
             this.HUDVida_fons = this.add.sprite(120,20,'VidaMIN').setScrollFactor(0);
             this.HUDVida_actual = this.add.sprite(120,20,'VidaMAX').setScrollFactor(0);
             this.actualitzarVida(this.player.hitPoints,this.player.MAX_VIDA);
+
+            this.espaiDimonis = 50;
+
+            this.HUDDimoni0 = this.add.sprite(50,50,'demon0-blue').setScrollFactor(0);
+            this.HUDDimoni1 = this.add.sprite(this.HUDDimoni0.x + this.espaiDimonis,this.HUDDimoni0.y,'demon1-orange').setScrollFactor(0);
+            this.HUDDimoni2 = this.add.sprite(this.HUDDimoni1.x + this.espaiDimonis,this.HUDDimoni0.y,'demon3-purple').setScrollFactor(0);
+            this.HUDDimoni3 = this.add.sprite(this.HUDDimoni2.x + this.espaiDimonis,this.HUDDimoni0.y,'demon4-red').setScrollFactor(0);
+
+            this.HUDDimoni0.scale = 2;
+            this.HUDDimoni1.scale = 2;
+            this.HUDDimoni2.scale = 2;
+            this.HUDDimoni3.scale = 2;
+
+            this.HUDDimoni0.visible = false;
+            this.HUDDimoni1.visible = false;
+            this.HUDDimoni2.visible = false;
+            this.HUDDimoni3.visible = false;
         }
     update(){     
 
@@ -180,17 +202,25 @@ class GameScene extends Phaser.Scene{
                 delay: 1500,
                 callback: () =>{
                     this.demon[parseInt(demon.name)].collectDemon();
-                    // for (var i = 0; i < 4; i++){
-                    //     if (this.demon[i].isCollected){
-                            
-                    //     }
-                    // }
+                    for (var i = 0; i < 4; i++){
+                        if (this.demon[i].isCollected){
+                                    /* demon4-red
+                                       demon3-purple
+                                       demon1-orange
+                                       demon0-blue  */
+                            if ( i == 0) this.HUDDimoni0.visible = true;
+                            else if ( i == 1) this.HUDDimoni1.visible = true;
+                            else if ( i == 2) this.HUDDimoni2.visible = true;
+                            else if ( i == 3) this.HUDDimoni3.visible = true;
+                        }
+                    }
                     
                 },
                 loop: false
             });
         }
     }
+
     showEndGameMessage(){
         this.banner = this.add.sprite(450,300,'banner_fin').setScrollFactor(0);
         this.banner.visible = true;
