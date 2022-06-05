@@ -24,7 +24,7 @@ class Player {
     collSide = '';
 
 
-    velHorizontal = 700; //160
+    velHorizontal = 300; //160
     velDiagonal = this.velHorizontal * Math.sin(Math.PI/4); //113
     
     attackProjectile;

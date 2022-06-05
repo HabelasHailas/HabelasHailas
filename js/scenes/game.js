@@ -142,7 +142,6 @@ class GameScene extends Phaser.Scene{
             this.HUDVida_fons = this.add.sprite(120,20,'VidaMIN').setScrollFactor(0);
             this.HUDVida_actual = this.add.sprite(120,20,'VidaMAX').setScrollFactor(0);
             this.actualitzarVida(this.player.hitPoints,this.player.MAX_VIDA);
-            this.victory();
         }
     update(){     
 
@@ -254,9 +253,7 @@ class GameScene extends Phaser.Scene{
                 this.time.addEvent({
                     delay: 4000,
                     callback: () =>{
-                        manCamera.fadeOut(1000);
-                        this.scene.stop('gameScene').launch('victoryScene');
-                        
+                        this.scene.stop('gameScene').launch('victoryScene');   
                     },
                     loop: false
                 });
