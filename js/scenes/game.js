@@ -213,11 +213,8 @@ class GameScene extends Phaser.Scene{
     saveData(){
         var demonsData = []
         for(var i = 0; i < 4; i++) demonsData.push(this.demon[i].getSaveData());
-        var enemyData = []
-        for(var i = 0; i < 10; i++) enemyData.push(this.enemy[i].getSaveDataEn());
 
         localStorage.setItem('demon',JSON.stringify(demonsData));
-        localStorage.setItem('enemy',JSON.stringify(enemyData));
         localStorage.setItem('points',JSON.stringify(this.points));
         localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
     }
