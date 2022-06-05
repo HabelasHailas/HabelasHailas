@@ -108,6 +108,7 @@ class GameScene extends Phaser.Scene{
             for(var i = 0; i < 10; i++){ this.enemy[i].createEnemy(); }
             
             this.winCollision = this.physics.add.sprite(1604, 470).setScale(3).refreshBody();
+            this.alreadyWon = false;
             
             
             //#region COLISIONES
@@ -202,7 +203,8 @@ class GameScene extends Phaser.Scene{
         });
     }
     winCondition(pl,col){
-        if(this.canWin){
+        if(this.canWin && !this.alreadyWon){
+            this.alreadyWon = true;
             this.victory();
         }
     }
@@ -248,7 +250,7 @@ class GameScene extends Phaser.Scene{
                 
                 manCamera.fadeOut(5000);
                 this.time.addEvent({
-                    delay: 4000,
+                    delay: 6000,
                     callback: () =>{
                         this.scene.stop('gameScene').launch('victoryScene');   
                     },
