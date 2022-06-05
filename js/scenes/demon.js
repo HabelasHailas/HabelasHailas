@@ -1,17 +1,23 @@
 "use strict"
 
 class Demon{
-    constructor(context, index) {
-        this.demon = null;
+    constructor(context, index, options) {
+        if(options == null){
+            this.demon = null;
+            this.index = index;
+            this.isCollected = false;
+        }
+        else{
+            this.demon = options.demon;
+            this.index = options.index;
+            this.isCollected = options.saved;            
+        }
         this.demContext = context;
-        this.index = index;
         this.hasWaved = false;
-        this.isCollected = false;
     }
     getSaveData(){
         var enemyData = {
             demon: this.demon,
-            context: this.demContext,
             index: this.index,
             saved: this.isCollected
         };
@@ -37,6 +43,9 @@ class Demon{
             case 3: this.demon.setPosition(1104,1855); break;
         }          
         this.demon.name = String(this.index);
+        if(this.isCollected){
+            this.demon.visible = false;
+        }
         
         //#region animaciones demonio
         this.demContext.anims.create({
@@ -78,7 +87,7 @@ class Demon{
                 this.demon.once('animationcomplete',() => {
                     this.demon.destroy();     
                 }); 
-            points += 1;
+           this.demContext.points += 1;
         }
     }
 }
