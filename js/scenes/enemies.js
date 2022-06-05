@@ -16,14 +16,14 @@ class Enemies{
     firstHit = true;
     
 
-    constructor(context, index){
+    constructor(context, index,options){        
+        this.enemy = options.enemy;
+        this.en_index = options.index;
+        this.isDead = options.dead;        
         this.enemyContext = context;
-        this.enemy = null;
-        this.en_index = index;
         this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
-        this.isDead = false;
     }
     getSaveDataEn(){
         var enemyData = {
@@ -45,7 +45,6 @@ class Enemies{
         this.enemy.body.setSize(40, 30);       
         this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
-
 
         switch(this.en_index){
             case 0: 
@@ -127,6 +126,10 @@ class Enemies{
             repeat: 0
          });
     //#endregion
+        if(this.isDead){
+            this.en_actualState = STATE_DEAD_en;
+            this.enemy.destroy();  
+        }
     }     
     
     playAnim(anim){
