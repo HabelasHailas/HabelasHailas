@@ -4,9 +4,11 @@ var saveBool = false;
 
 class GameScene extends Phaser.Scene{
     jsonDemon = localStorage.getItem("demon") || '0';
+    jsonEnemy = localStorage.getItem("enemy") || '0';
     jsonPoints = localStorage.getItem("points") || 0;
     jsonPlayer = localStorage.getItem("player") || 100;
     demonOptions = JSON.parse(this.jsonDemon);
+    enemyOptions = JSON.parse(this.jsonEnemy);
     playerPoints = JSON.parse(this.jsonPlayer);
     
     
@@ -214,13 +216,17 @@ class GameScene extends Phaser.Scene{
         }
     }
     actualitzarVida(vidaActual, vidaMax){
-        let crop = vidaActual/vidaMax * 160;
+        let crop = vidaActual/vidaMax * this.HUDVida_actual.width;
         this.HUDVida_actual.setCrop(0,0,crop,16);
     }
     saveData(){
         var demonsData = []
         for(var i = 0; i < 4; i++) demonsData.push(this.demon[i].getSaveData());
+        var enemyData = []
+        for(var i = 0; i < 10; i++) enemyData.push(this.enemy[i].getSaveDataEn());
+
         localStorage.setItem('demon',JSON.stringify(demonsData));
+        localStorage.setItem('enemy',JSON.stringify(enemyData));
         localStorage.setItem('points',JSON.stringify(this.points));
         localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
     }

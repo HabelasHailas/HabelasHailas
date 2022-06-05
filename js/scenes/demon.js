@@ -16,12 +16,12 @@ class Demon{
         this.hasWaved = false;
     }
     getSaveData(){
-        var enemyData = {
+        var demonData = {
             demon: this.demon,
             index: this.index,
             saved: this.isCollected
         };
-        return enemyData;
+        return demonData;
     }
     preloadDemon(){
         
