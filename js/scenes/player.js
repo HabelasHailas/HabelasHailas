@@ -24,7 +24,7 @@ class Player {
     collSide = '';
 
 
-    velHorizontal = 300; //160
+    velHorizontal = 700; //160
     velDiagonal = this.velHorizontal * Math.sin(Math.PI/4); //113
     
     attackProjectile;
@@ -125,6 +125,11 @@ class Player {
         });
 
     }
+    win() {
+        this.isDead = true;
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
+    }
     takeDamage() {
         this.actualState = STATE_DAMAGE;
         this.player.setVelocityX(0);
@@ -159,9 +164,6 @@ class Player {
             this.player.setVelocityY(0);
             this.player.anims.play('death',false);
             this.context.morir();
-            this.player.once('animationcomplete',() => {
-                //LOAD DEATH SCREEN
-            });
         }
         // this.context.morir();
     }

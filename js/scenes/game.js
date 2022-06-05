@@ -142,7 +142,7 @@ class GameScene extends Phaser.Scene{
             this.HUDVida_fons = this.add.sprite(120,20,'VidaMIN').setScrollFactor(0);
             this.HUDVida_actual = this.add.sprite(120,20,'VidaMAX').setScrollFactor(0);
             this.actualitzarVida(this.player.hitPoints,this.player.MAX_VIDA);
-            
+            this.victory();
         }
     update(){     
 
@@ -243,14 +243,20 @@ class GameScene extends Phaser.Scene{
         });
     }
     victory(){
+        var manCamera = this.cameras.main;
+
+        this.player.win();
         this.time.addEvent({
             delay: 2000,
             callback: () =>{
-                manCamera.fadeOut(2000);
+                
+                manCamera.fadeOut(5000);
                 this.time.addEvent({
                     delay: 4000,
                     callback: () =>{
-                        window.location.assign('../index.html');
+                        manCamera.fadeOut(1000);
+                        this.scene.stop('gameScene').launch('victoryScene');
+                        
                     },
                     loop: false
                 });
