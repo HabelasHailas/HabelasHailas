@@ -16,11 +16,12 @@ class Enemies{
     firstHit = true;
     isDead = false;
 
-    constructor(context){
+    constructor(context, index){
         this.enemyContext = context;
         this.nearCollision = null;
         this.enemy = null;
-        this.idleTimmer = 5000;
+        this.en_index = index;
+        this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
     }
@@ -33,13 +34,19 @@ class Enemies{
     createEnemy(){
         //#region enemy physics
         this.enemy = this.enemyContext.physics.add.sprite(0,0,'enemyIdle').setScale(1.5).refreshBody();
-        this.enemy.setPosition(100,100);
         this.enemy.body.setSize(40, 30);       
         this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
 
         this.nearCollision = this.enemyContext.physics.add.sprite(this.enemy.x, this.enemy.y).setScale(2).refreshBody();
         this.nearCollision.body.setSize(150,150);
+
+        switch(this.en_index){
+            case 0: this.enemy.setPosition(100,600); break;
+            case 1: this.enemy.setPosition(100,200); break;
+            case 2: this.enemy.setPosition(100,500); break;
+        }
+        this.enemy.name = String(this.en_index);
         //#endregion  
 
         //#region animaciones enemigo
@@ -158,7 +165,7 @@ class Enemies{
         this.enemyGetHit();
     }
     enemyGetHit(){
-        console.log("VIDA",this.enemy_hitPoints);
+        console.log("VIDA ENEMIC",this.enemy_hitPoints);
         if(this.firstHit){
             this.enemy_hitPoints -= 1;
             this.firstHit = false;
@@ -167,11 +174,13 @@ class Enemies{
             this.en_actualState = STATE_DEAD_en;
             this.enemyDie();
         }
-        else if(this.en_actualState != STATE_DEAD_en){
+        else{
             this.en_actualState = STATE_WALK_en;
         }
     }
+    enemyAttack(){
 
+    }
     updateEnemy(){
         this.nearCollision.setPosition(this.enemy.x, this.enemy.y); 
         if(this.en_actualState != STATE_DEAD_en && !this.isDead){
@@ -183,7 +192,7 @@ class Enemies{
                     this.enemyWalk();
                     break;
                 case STATE_ATTACK_en:
-                    // this.attack();
+                    this.enemyAttack();
                     break;
                 case STATE_DAMAGE_en:
                     this.enemyDamage();

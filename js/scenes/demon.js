@@ -9,52 +9,55 @@ class Demon{
         this.isCollected = false;
     }
     preloadDemon(){
-        this.demContext.load.spritesheet('demon', '../../sprites/demonios/MAGE.png', { frameWidth: 64, frameHeight: 64 });
-
+        
+        switch(this.index){
+            case 0: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_blue.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 1: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_orange.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 2: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_purple.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 3: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_red.png', { frameWidth: 64, frameHeight: 64 }); break;
+        }  
     }
     createDemon(){
-        this.demon = this.demContext.physics.add.sprite(0, 0, 'demon').setScale(1.5).refreshBody();
+        this.demon = this.demContext.physics.add.sprite(0, 0, 'demon'+this.index).setScale(1.5).refreshBody();
         this.demon.body.setSize(80, 80);
         this.demon.body.setOffset(-10, 10);
         switch(this.index){
-            case 0: this.demon.setPosition(250,300); break;
-            case 1: this.demon.setPosition(100,300); break;
-            case 2: this.demon.setPosition(400,300); break;
-            case 3: this.demon.setPosition(550,300); break;
+            case 0: this.demon.setPosition(232,645); break;
+            case 1: this.demon.setPosition(2475,730); break;
+            case 2: this.demon.setPosition(2024,1353); break;
+            case 3: this.demon.setPosition(1104,1855); break;
         }          
         this.demon.name = String(this.index);
         
         //#region animaciones demonio
         this.demContext.anims.create({
-            key:'demIdle',
-            frames: this.demContext.anims.generateFrameNumbers('demon',{start: 0, end: 7}),
+            key:'demIdle'+this.index,
+            frames: this.demContext.anims.generateFrameNumbers('demon'+this.index,{start: 0, end: 7}),
             frameRate: 7,
             repeat: -1
          });
         this.demContext.anims.create({
-            key:'demEmote',
-            frames: this.demContext.anims.generateFrameNumbers('demon',{start: 9, end: 16}),
+            key:'demEmote'+this.index,
+            frames: this.demContext.anims.generateFrameNumbers('demon'+this.index,{start: 8, end: 15}),
             frameRate: 7,
             repeat: 0
          });
         this.demContext.anims.create({
-            key:'demDie',
-            frames: this.demContext.anims.generateFrameNumbers('demon',{start:64 , end: 72}),
+            key:'demDie'+this.index,
+            frames: this.demContext.anims.generateFrameNumbers('demon'+this.index,{start:64 , end: 72}),
             frameRate: 7,
             repeat: 0
          });
         //#endregion
 
-        this.demon.anims.play('demIdle',true);
+        this.demon.anims.play('demIdle'+this.index,true);
     }
     enterDemonRange(){
         if(!this.hasWaved && !this.isCollected){
             this.hasWaved = true;
-            this.demon.anims.play('demEmote',false);
+            this.demon.anims.play('demEmote'+this.index,false);
             this.demon.once('animationcomplete',() => {
-                this.hasWaved = false;      
-                this.demon.anims.play('demIdle',true); 
-                this.collectDemon();     
+                this.demon.anims.play('demIdle'+this.index,true);      
             }); 
         }        
     }
@@ -66,8 +69,7 @@ class Demon{
                 this.demon.once('animationcomplete',() => {
                     this.demon.destroy();     
                 }); 
+            this.demContext.points += 1;
         }
-        this.demContext.points += 1;
-        console.log(this.demContext.points);
     }
 }

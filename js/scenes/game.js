@@ -5,7 +5,7 @@ class GameScene extends Phaser.Scene{
         super('GameScene');
         // this.player = null;
         this.player = new Player(this);
-        this.enemy = new Enemies(this);
+        this.enemy = [];
         this.demon = [];
         this.points = 0;
     }
@@ -27,11 +27,14 @@ class GameScene extends Phaser.Scene{
         
         // this.load.spritesheet      
         this.player.preloadPlayer();  
-        this.enemy.preloadEnemy();  
 
         for(var i = 0; i < 4; i++){
             this.demon[i] = new Demon(this,i);
             this.demon[i].preloadDemon();
+        }
+        for(var i = 0; i < 3; i++){
+            this.enemy[i] = new Enemies(this,i);
+            this.enemy[i].preloadEnemy();
         }
 
         game.scale.pageAlignHorizontally = true;
@@ -74,31 +77,39 @@ class GameScene extends Phaser.Scene{
             layerProps2.setScale(1.3);
             layerPlants2.setScale(1.3);
 
+            this.physics.add.collider(this.player, layerWalls);
+            layerWalls.setCollisionBetween(17,96);
         //#endregion
 
         this.player.createPlayer();
-        this.enemy.createEnemy(); 
         for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
+        for(var i = 0; i < 3; i++){ this.enemy[i].createEnemy(); }
         
-        //#region COLI
-        this.physics.add.collider(this.player.attackProjectile, this.enemy); //enemigo vs atac
-        this.physics.add.collider(this.player, this.enemy); //enemigo vs bruja
+        //#region COLISIONES
         for(var i = 0; i < 4; i++)  this.physics.add.collider(this.player, this.demon[i]); 
+        for(var i = 0; i < 3; i++)  this.physics.add.collider(this.player.attackProjectile, this.enemy[i]); 
+        for(var i = 0; i < 3; i++)  this.physics.add.collider(this.player, this.enemy[i]); 
         
-        this.physics.add.overlap(this.player.attackProjectile,this.enemy.enemy,(body1,body2)=>this.attackDone(body1,body2));
-        this.physics.add.overlap(this.player.player,this.enemy.enemy,(player,enemy)=>this.enemyHits(player,enemy));
+        for(var i = 0; i < 3; i++)  
+        this.physics.add.overlap(this.player.attackProjectile,this.enemy[i].enemy,(body1,body2)=>this.attackDone(body1,body2));
+        for(var i = 0; i < 3; i++)  
+        this.physics.add.overlap(this.player.player,this.enemy[i].enemy,(player,enemy)=>this.enemyHits(player,enemy));
         for(var i = 0; i < 4; i++)  
-            this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
+        this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
         //#endregion
+        
+        this.cameras.main.setBounds(0,0,3120,2370);
+        this.physics.world.setBounds(0,0,3120,2370);
+        this.cameras.main.startFollow(this.player.player);
         
     }
     update(){      
-        this.enemy.updateEnemy();
         this.player.updateStates();
+        for(var i = 0; i < 3; i++){ this.enemy[i].updateEnemy(); }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
         if(player.frame.name == 0)  return;
-        this.enemy.changeState(3);
+        this.enemy[parseInt(enemy.name)].changeState(3);
     }
     enemyHits(player,enemy){ //colision del enemigo vs la bruja
         var sideCollided = '';
@@ -111,6 +122,15 @@ class GameScene extends Phaser.Scene{
     }
     enterDemon(player,demon){
         this.demon[parseInt(demon.name)].enterDemonRange();
+        if(this.player.isCharging){
+            this.time.addEvent({
+                delay: 1500,
+                callback: () =>{
+                    this.demon[parseInt(demon.name)].collectDemon();
+                },
+                loop: false
+            });
+        }
     }
 }
 
