@@ -44,7 +44,7 @@ class Demon{
          });
         this.demContext.anims.create({
             key:'demDie'+this.index,
-            frames: this.demContext.anims.generateFrameNumbers('demon'+this.index,{start:64 , end: 72}),
+            frames: this.demContext.anims.generateFrameNumbers('demon'+this.index,{start:65 , end: 72}),
             frameRate: 7,
             repeat: 0
          });
@@ -65,7 +65,7 @@ class Demon{
     collectDemon(){
         if(!this.isCollected){
             this.isCollected = true;
-            this.demon.anims.play('demDie',false);
+            this.demon.anims.play('demDie'+this.index,false);
                 this.demon.once('animationcomplete',() => {
                     this.demon.destroy();     
                 }); 

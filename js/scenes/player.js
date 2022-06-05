@@ -264,7 +264,7 @@ class Player {
         this.attackProjectile.setFrame(0);
     }    
     updateStates(){
-        console.log("POS X: ",this.player.x, " POS Y: ",this.player.y);
+        console.log("X: ",this.player.x," Y:",this.player.y);
         if(!this.isDead){
             switch (this.actualState){
                 case STATE_IDLE:

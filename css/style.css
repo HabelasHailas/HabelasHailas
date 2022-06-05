@@ -90,7 +90,7 @@ body{
 }
 .buttonOptions:hover{
 	box-shadow: 0 0px 20px rgba(161, 136, 78, 0.5);
-	background-image: url(../sprites/menuCards/optionsHover.png);
+	background-image: url(../sprites/menuCards/controlsHover.png);
 	transform: scale(.95);
 }
 

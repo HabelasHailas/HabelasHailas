@@ -1,4 +1,4 @@
-.path {
+#animLogo:hover > .path {
     stroke-dasharray: 600;
     stroke-dashoffset: 600;
     animation: dash 5s linear alternate;
@@ -13,7 +13,7 @@
     }
 }
 
-.final {
+#animLogo:hover > .final {
     animation: mostrar 5s linear;
 }
   
@@ -28,7 +28,7 @@
         opacity: 100%;
     }
 }
-.ojo{
+#animLogo:hover > .ojo{
     animation: abrirOjo 5s linear;
 
 }
