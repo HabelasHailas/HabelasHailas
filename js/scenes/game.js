@@ -57,7 +57,11 @@ class GameScene extends Phaser.Scene{
             this.demon[i].preloadDemon();
         }
         for(var i = 0; i < 10; i++){
-            this.enemy[i] = new Enemies(this,i);
+            if(this.enemyOptions == '0')
+                this.enemy[i] = new Enemies(this,i,null);
+                else
+                this.enemy[i] = new Enemies(this,i,this.enemyOptions[i]);
+
             this.enemy[0].preloadEnemy();   
         }
 
