@@ -27,8 +27,7 @@
 // }();
 
 function start(){
-	loadpage("../html/game.html");
-	console.log("CLIIK");
+	loadpage("/html/game.html");
 }
 function load(){
 	loadpage("../index.html");
