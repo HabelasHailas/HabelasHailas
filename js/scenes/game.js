@@ -228,5 +228,25 @@ class GameScene extends Phaser.Scene{
         localStorage.setItem('points',JSON.stringify(this.points));
         localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
     }
+    morir(){
+
+        var manCamera = this.cameras.main;
+        manCamera.shake(500);
+        
+        this.time.addEvent({
+            delay: 2000,
+            callback: () =>{
+                manCamera.fadeOut(2000);
+                this.time.addEvent({
+                    delay: 4000,
+                    callback: () =>{
+                        window.location.assign('../index.html');
+                    },
+                    loop: false
+                });
+            },
+            loop: false
+        });
+    }
 }
 
