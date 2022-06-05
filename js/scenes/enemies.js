@@ -16,10 +16,17 @@ class Enemies{
     firstHit = true;
     
 
-    constructor(context, index,options){        
-        this.enemy = options.enemy;
-        this.en_index = options.index;
-        this.isDead = options.dead;        
+    constructor(context, index,options){ 
+        if(options == '0'){
+            this.enemy = null;
+            this.en_index = index;
+            this.isDead = false;
+        } 
+        else{
+            this.enemy = options.enemy;
+            this.en_index = options.index;
+            this.isDead = options.dead;
+        }      
         this.enemyContext = context;
         this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
