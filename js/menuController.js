@@ -19,6 +19,9 @@ var options = function(){
 				//save();
 				loadpage("../index.html");
 			}
+			back: function(){
+				loadpage("../index.html");
+			}
 		}
 	});
 }();
