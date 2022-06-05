@@ -16,23 +16,17 @@ class Enemies{
     firstHit = true;
     
 
-    constructor(context, index){
-        this.enemyContext = context;
+    constructor(context, index){ 
+       
         this.enemy = null;
         this.en_index = index;
+        this.isDead = false;             
+        this.enemyContext = context;
         this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
-        this.isDead = false;
     }
-    getSaveDataEn(){
-        var enemyData = {
-            enemy: this.enemy,
-            index: this.en_index,
-            dead: this.isDead
-        };
-        return enemyData;
-    }
+    
     preloadEnemy(){
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
@@ -46,7 +40,6 @@ class Enemies{
         this.enemy.body.setOffset(2, 19);       
         this.enemy.setCollideWorldBounds(true);
 
-
         switch(this.en_index){
             case 0: 
                 this.enemy.setPosition(1339,174); 
@@ -56,27 +49,27 @@ class Enemies{
             case 1: 
                 this.enemy.setPosition(1824,813); 
                 this.pointOne = 1824;
-                this.pointwo = 2385;
+                this.pointwo = 2322;
                 break;
             case 2: 
                 this.enemy.setPosition(1352,1285); 
-                this.pointOne = 1352;
-                this.pointwo = 2207;
+                this.pointOne = 1035;
+                this.pointwo = 1892;
                 break;
             case 3: 
-                this.enemy.setPosition(2129,1488); 
-                this.pointOne = 1679;
-                this.pointwo = 2129;
+                this.enemy.setPosition(2278,1603); 
+                this.pointOne = 2278;
+                this.pointwo = 2678;
                 break;
             case 4: 
-                this.enemy.setPosition(813,1746); 
+                this.enemy.setPosition(813,1700); 
                 this.pointOne = 813;
                 this.pointwo = 1441;
                 break;
             case 5: 
-                this.enemy.setPosition(707,1613); 
-                this.pointOne = 707;
-                this.pointwo = 1092;
+                this.enemy.setPosition(1257,1856); 
+                this.pointOne = 1257;
+                this.pointwo = 1722;
                 break;
             case 6: 
                 this.enemy.setPosition(245,1868); 
@@ -86,10 +79,10 @@ class Enemies{
             case 7: 
                 this.enemy.setPosition(160,971); 
                 this.pointOne = 160;
-                this.pointwo = 935;
+                this.pointwo = 920;
                 break;
             case 8: 
-                this.enemy.setPosition(409,439); 
+                this.enemy.setPosition(409,400); 
                 this.pointOne = 409;
                 this.pointwo = 794;
                 break;
@@ -127,6 +120,7 @@ class Enemies{
             repeat: 0
          });
     //#endregion
+
     }     
     
     playAnim(anim){

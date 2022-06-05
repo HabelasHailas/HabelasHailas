@@ -22,9 +22,11 @@ class Player {
     isAttacked = false;
     isCharging = false;
     collSide = '';
-    
-    velDiagonal = 113; //113
+
+
     velHorizontal = 300; //160
+    velDiagonal = this.velHorizontal * Math.sin(Math.PI/4); //113
+    
     attackProjectile;
 
     constructor(context,hp) {
@@ -49,6 +51,7 @@ class Player {
         this.player = this.context.physics.add.sprite(1604, 449, 'characterIdle').setScale(2).refreshBody();
         this.player.body.setSize(18, 40); //tamaño caja colision
         this.player.setCollideWorldBounds(true);
+        
 
         this.attackProjectile = this.context.physics.add.sprite((this.player.x*2)-5, this.player.y, 'attackProjectile').setScale(2).refreshBody();
         this.attackProjectile.body.setSize(80,35);
@@ -108,7 +111,7 @@ class Player {
         });
         //#endregion
 
-
+        
     }
     attack() {
         this.player.anims.play('attack', true);
@@ -155,10 +158,12 @@ class Player {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.player.anims.play('death',false);
+            this.context.morir();
             this.player.once('animationcomplete',() => {
                 //LOAD DEATH SCREEN
             });
         }
+        // this.context.morir();
     }
     movePlayer() {
         if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
@@ -273,7 +278,7 @@ class Player {
         return this.hitPoints;
     }
     updateStates(){
-        console.log("vida",this.hitPoints);
+        console.log("x",this.player.x, "y", this.player.y);
         if(!this.isDead){
             switch (this.actualState){
                 case STATE_IDLE:

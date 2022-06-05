@@ -4,14 +4,10 @@ var saveBool = false;
 
 class GameScene extends Phaser.Scene{
     jsonDemon = localStorage.getItem("demon") || '0';
-    jsonEnemy = localStorage.getItem("enemy") || '0';
     jsonPoints = localStorage.getItem("points") || 0;
     jsonPlayer = localStorage.getItem("player") || 100;
     demonOptions = JSON.parse(this.jsonDemon);
-    enemyOptions = JSON.parse(this.jsonEnemy);
     playerPoints = JSON.parse(this.jsonPlayer);
-    
-    
 
     constructor(){
         super('GameScene');
@@ -58,6 +54,7 @@ class GameScene extends Phaser.Scene{
         }
         for(var i = 0; i < 10; i++){
             this.enemy[i] = new Enemies(this,i);
+
             this.enemy[0].preloadEnemy();   
         }
 
@@ -68,13 +65,13 @@ class GameScene extends Phaser.Scene{
     }
     create(){   
         //#region crear mapa tiles
-            const map = this.make.tilemap({
+            var map = this.make.tilemap({
                 key: "map",
                 tileWidth: 32, 
                 tileHeight: 32
             });
             const tilesetGrass = map.addTilesetImage("TX Tileset Grass", "tilesGrass");
-            const tilesetWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            var tilesetWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
             const tilesetStruct = map.addTilesetImage("TX Struct", "tilesStruct");
             const tilesetShadow = map.addTilesetImage("TX Shadow", "tilesShadow");
             const tilesetProps = map.addTilesetImage("TX Props", "tilesProps");
@@ -84,7 +81,7 @@ class GameScene extends Phaser.Scene{
 
             
             const layerGrass = map.createLayer("Grass",tilesetGrass,0,0);
-            const layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
+            var layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
             const layerStruct = map.createLayer("Struct",tilesetStruct,0,0);
             const layerShadow = map.createLayer("Shadow",tilesetShadow,0,0);
             const layerProps = map.createLayer("Props",tilesetProps,0,0);
@@ -127,12 +124,6 @@ class GameScene extends Phaser.Scene{
             this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
             this.physics.add.overlap(this.player.player,this.winCollision,(player,coll)=>this.winCondition(player,coll));
             
-            
-            //layerWalls.setCollisionBetween(0,166);
-            //layerWalls.setCollisionByProperty({ Collide: true });
-            //layerWalls.setImmovable(true)
-            //this.physics.add.collider(this.player, layerWalls);
-            
             //#endregion
             
             
@@ -172,7 +163,8 @@ class GameScene extends Phaser.Scene{
         if(player.frame.name == 0)  return;
         this.enemy[parseInt(enemy.name)].changeState(3);
     }
-    enemyHits(player,enemy){ //colision del enemigo vs la bruja
+    enemyHits(player,enemy){ //colision del enemigo vs la bruj
+        console.log(enemy.name);
         var sideCollided = '';
         if(player.body.touching.up){ sideCollided = 't';}
         if(player.body.touching.down){ sideCollided = 'd';}
@@ -212,7 +204,7 @@ class GameScene extends Phaser.Scene{
     }
     winCondition(pl,col){
         if(this.canWin){
-            window.location.assign('../index.html');
+            this.victory();
         }
     }
     actualitzarVida(vidaActual, vidaMax){
@@ -229,6 +221,42 @@ class GameScene extends Phaser.Scene{
         localStorage.setItem('enemy',JSON.stringify(enemyData));
         localStorage.setItem('points',JSON.stringify(this.points));
         localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
+    }
+    morir(){
+
+        var manCamera = this.cameras.main;
+        manCamera.shake(500);
+        
+        this.time.addEvent({
+            delay: 2000,
+            callback: () =>{
+                manCamera.fadeOut(2000);
+                this.time.addEvent({
+                    delay: 4000,
+                    callback: () =>{
+                        window.location.assign('../index.html');
+                    },
+                    loop: false
+                });
+            },
+            loop: false
+        });
+    }
+    victory(){
+        this.time.addEvent({
+            delay: 2000,
+            callback: () =>{
+                manCamera.fadeOut(2000);
+                this.time.addEvent({
+                    delay: 4000,
+                    callback: () =>{
+                        window.location.assign('../index.html');
+                    },
+                    loop: false
+                });
+            },
+            loop: false
+        });
     }
 }
 
