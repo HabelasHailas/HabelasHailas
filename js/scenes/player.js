@@ -156,6 +156,7 @@ class Player {
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             this.player.anims.play('death',false);
+            this.context.morir();
             this.player.once('animationcomplete',() => {
                 //LOAD DEATH SCREEN
             });
