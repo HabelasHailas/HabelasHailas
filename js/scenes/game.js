@@ -1,18 +1,13 @@
 "use strict";
 
-var jsonPoints = localStorage.getItem("points");
-var jsonDemon = localStorage.getItem("demon");
-var jsonPlayer = localStorage.getItem("player");
-
-var points = JSON.parse(jsonPoints) || 0;
-var saveBool = false;
 class GameScene extends Phaser.Scene{
     constructor(){
         super('GameScene');
         // this.player = null;
-        this.player = JSON.parse(jsonPlayer) || new Player(this);
+        this.player = new Player(this);
         this.enemy = [];
         this.demon = [];
+        this.points = 0;
         this.banner = null;
         this.canWin = false;
         this.winCollision = null;
@@ -30,25 +25,27 @@ class GameScene extends Phaser.Scene{
             this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
             this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
             this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
+
             this.load.tilemapTiledJSON('map',"../Map/TileMap.tmj");
         //#endregion
         
         this.load.image('banner_ini','../sprites/banner_inicio.png');
         this.load.image('banner_fin','../sprites/banner_final.png');
 
+        this.load.image('VidaMIN','../sprites/HUD/woodSignTop3.png');
+        this.load.image('VidaMAX','../sprites/HUD/woodSignTop1.png');
+        this.load.image('ManaMIN','../sprites/HUD/woodSignTop4.png');
+        this.load.image('ManaMAX','../sprites/HUD/woodSignTop2.png');
+
         this.player.preloadPlayer(); 
-        console.log(JSON.parse(jsonDemon));
-        if(this.demon.length === 0){
-            for(var i = 0; i < 4; i++){
-                this.demon[i] = new Demon(this,i,jsonDemon);
-                this.demon[i].preloadDemon();
-            }
+
+        for(var i = 0; i < 4; i++){
+            this.demon[i] = new Demon(this,i);
+            this.demon[i].preloadDemon();
         }
-        if(this.enemy.length === 0){
-            for(var i = 0; i < 10; i++){
-                this.enemy[i] = new Enemies(this,i);
-                this.enemy[0].preloadEnemy();   
-            }
+        for(var i = 0; i < 10; i++){
+            this.enemy[i] = new Enemies(this,i);
+            this.enemy[0].preloadEnemy();   
         }
 
         game.scale.pageAlignHorizontally = true;
@@ -71,6 +68,7 @@ class GameScene extends Phaser.Scene{
             const tilesetPlant = map.addTilesetImage("TX Plant", "tilesPlant");
             const tilesetProps2 = map.addTilesetImage("TX Props", "tilesProps");
             const tilesetPlants2 = map.addTilesetImage("TX Plant", "tilesPlant");
+
             
             const layerGrass = map.createLayer("Grass",tilesetGrass,0,0);
             const layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
@@ -80,6 +78,7 @@ class GameScene extends Phaser.Scene{
             const layerPlant = map.createLayer("Plant",tilesetPlant,0,0);
             const layerProps2 = map.createLayer("Props2",tilesetProps,0,0);
             const layerPlants2 = map.createLayer("Plants2",tilesetPlants2,0,0);
+            
             
             
             layerGrass.setScale(1.3);
@@ -92,12 +91,12 @@ class GameScene extends Phaser.Scene{
             layerPlants2.setScale(1.3);
 
             //#endregion
-           
+
             this.banner = this.add.sprite(450,300,'banner_ini').setScrollFactor(0);
             this.player.createPlayer();
             for(var i = 0; i < 4; i++){ this.demon[i].createDemon(); }
             for(var i = 0; i < 10; i++){ this.enemy[i].createEnemy(); }
-        
+            
             this.winCollision = this.physics.add.sprite(1604, 470).setScale(3).refreshBody();
 
 
@@ -136,18 +135,18 @@ class GameScene extends Phaser.Scene{
                 loop: false
             });
             
+            this.HUDVida_fons = this.add.sprite(120,20,'VidaMIN').setScrollFactor(0);
+            this.HUDVida_actual = this.add.sprite(120,20,'VidaMAX').setScrollFactor(0);
+            
     }
-    update(){      
+    update(){     
+
         this.player.updateStates();
         for(var i = 0; i < 10; i++){ this.enemy[i].updateEnemy(); }
 
-        if(points == 4 && this.banner.visible == false){
+        if(this.points == 4 && this.banner.visible == false){
             this.showEndGameMessage();
             this.canWin = true;
-        }
-        if(saveBool){
-            this.saveInfo();
-            saveBool = false;
         }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
@@ -191,10 +190,9 @@ class GameScene extends Phaser.Scene{
             window.location.assign('../index.html');
         }
     }
-    saveInfo(){
-        // localStorage.setItem("player",JSON.stringify(this.player));
-        localStorage.setItem("points",JSON.stringify(points));
-        localStorage.setItem("demon",JSON.stringify(this.demon.getSaveData));
+    actualitzarVida(vidaActual, vidaMax){
+        let crop = vidaActual/vidaMax * 160;
+        this.HUDVida_actual.setCrop(0,0,crop,16);
     }
 }
 

@@ -7,6 +7,8 @@ const STATE_ATTACK = 3;
 const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
 
+const MAX_VIDA = 100;
+
 class Player { 
     key_a = null;
     key_s = null;
@@ -26,7 +28,7 @@ class Player {
     constructor(context) {
         this.context = context;
         this.player = null;
-        this.hitPoints = 100;
+        this.hitPoints = MAX_VIDA;
         this.actualState = STATE_IDLE;
         this.isDead = false;
 
@@ -142,6 +144,7 @@ class Player {
         if (this.hitPoints <= 0) {
             this.actualState = STATE_DEAD;
         }     
+        this.context.actualitzarVida(this.hitPoints,MAX_VIDA);
     }
     dead(){
         if(!this.isDead){
