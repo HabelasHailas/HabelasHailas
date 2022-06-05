@@ -132,10 +132,11 @@ class GameScene extends Phaser.Scene{
             this.physics.add.overlap(this.player.player,this.winCollision,(player,coll)=>this.winCondition(player,coll));
             
             
-            //layerWalls.setCollisionBetween(0,166);
-            //layerWalls.setCollisionByProperty({ Collide: true });
-            //layerWalls.setImmovable(true)
-            //this.physics.add.collider(this.player, layerWalls);
+            // layerWalls.setCollisionBetween(0,166);
+            // layerWalls.setCollisionByProperty({ Collide: twrue });
+            // layerWalls.setImmovable(true)
+            this.physics.add.collider(this.player.player, layerWalls);
+            this.cameras.main.setBounds(0,0,layerWalls.widthInPixels, layerWalls.heightInPixels)
             
             //#endregion
             
