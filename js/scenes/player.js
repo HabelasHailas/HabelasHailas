@@ -7,7 +7,7 @@ const STATE_ATTACK = 3;
 const STATE_DAMAGE = 4;
 const STATE_DEAD = 5;
 
-const MAX_VIDA = 100;
+
 
 class Player { 
     key_a = null;
@@ -17,6 +17,8 @@ class Player {
     key_e = null;
     key_q = null;
 
+    MAX_VIDA = 100;
+
     isAttacked = false;
     isCharging = false;
     collSide = '';
@@ -25,10 +27,10 @@ class Player {
     velHorizontal = 300; //160
     attackProjectile;
 
-    constructor(context) {
+    constructor(context,hp) {
         this.context = context;
         this.player = null;
-        this.hitPoints = MAX_VIDA;
+        this.hitPoints = hp;
         this.actualState = STATE_IDLE;
         this.isDead = false;
 
@@ -106,6 +108,7 @@ class Player {
         });
         //#endregion
 
+
     }
     attack() {
         this.player.anims.play('attack', true);
@@ -144,7 +147,7 @@ class Player {
         if (this.hitPoints <= 0) {
             this.actualState = STATE_DEAD;
         }     
-        this.context.actualitzarVida(this.hitPoints,MAX_VIDA);
+        this.context.actualitzarVida(this.hitPoints,this.MAX_VIDA);
     }
     dead(){
         if(!this.isDead){
@@ -270,6 +273,7 @@ class Player {
         return this.hitPoints;
     }
     updateStates(){
+        console.log("vida",this.hitPoints);
         if(!this.isDead){
             switch (this.actualState){
                 case STATE_IDLE:
