@@ -1,9 +1,12 @@
 "use strict";
 
+var saveBool = false;
+var jsonDemon = localStorage.getItem("demon") || '0';
+console.log(jsonDemon);
+var demonOptions = JSON.parse(jsonDemon);
 class GameScene extends Phaser.Scene{
     constructor(){
         super('GameScene');
-        // this.player = null;
         this.player = new Player(this);
         this.enemy = [];
         this.demon = [];
@@ -38,9 +41,12 @@ class GameScene extends Phaser.Scene{
         this.load.image('ManaMAX','../sprites/HUD/woodSignTop2.png');
 
         this.player.preloadPlayer(); 
-
+        console.log(demonOptions);
         for(var i = 0; i < 4; i++){
-            this.demon[i] = new Demon(this,i);
+            if(demonOptions == '0')
+                this.demon[i] = new Demon(this,i,null);
+            else
+                this.demon[i] = new Demon(this,i,demonOptions[i]);
             this.demon[i].preloadDemon();
         }
         for(var i = 0; i < 10; i++){
@@ -148,6 +154,11 @@ class GameScene extends Phaser.Scene{
             this.showEndGameMessage();
             this.canWin = true;
         }
+
+        if(saveBool){
+            this.saveData();
+            saveBool = false;
+        }
     }
     attackDone(player,enemy){ //colision del ataque de la bruja vs enemigo
         if(player.frame.name == 0)  return;
@@ -193,6 +204,11 @@ class GameScene extends Phaser.Scene{
     actualitzarVida(vidaActual, vidaMax){
         let crop = vidaActual/vidaMax * this.HUDVida_actual.width;
         this.HUDVida_actual.setCrop(0,0,crop,16);
+    }
+    saveData(){
+        var demonsData = []
+        for(var i = 0; i < 4; i++) demonsData.push(this.demon[i].getSaveData());
+        localStorage.setItem('demon',JSON.stringify(demonsData));
     }
 }
 
