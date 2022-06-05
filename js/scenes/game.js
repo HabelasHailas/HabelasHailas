@@ -4,11 +4,9 @@ var saveBool = false;
 
 class GameScene extends Phaser.Scene{
     jsonDemon = localStorage.getItem("demon") || '0';
-    jsonEnemy = localStorage.getItem("enemy") || '0';
     jsonPoints = localStorage.getItem("points") || 0;
     jsonPlayer = localStorage.getItem("player") || 100;
     demonOptions = JSON.parse(this.jsonDemon);
-    enemyOptions = JSON.parse(this.jsonEnemy);
     playerPoints = JSON.parse(this.jsonPlayer);
     
     
@@ -57,10 +55,7 @@ class GameScene extends Phaser.Scene{
             this.demon[i].preloadDemon();
         }
         for(var i = 0; i < 10; i++){
-            if(this.enemyOptions == '0')
-                this.enemy[i] = new Enemies(this,i,null);
-                else
-                this.enemy[i] = new Enemies(this,i,this.enemyOptions[i]);
+            this.enemy[i] = new Enemies(this,i);
 
             this.enemy[0].preloadEnemy();   
         }
@@ -135,9 +130,7 @@ class GameScene extends Phaser.Scene{
             // layerWalls.setCollisionBetween(0,166);
             // layerWalls.setCollisionByProperty({ Collide: twrue });
             // layerWalls.setImmovable(true)
-            this.physics.add.collider(this.player.player, layerWalls);
-            this.cameras.main.setBounds(0,0,layerWalls.widthInPixels, layerWalls.heightInPixels)
-            
+            this.physics.add.collider(this.player.player, layerWalls);            
             //#endregion
             
             
@@ -234,26 +227,6 @@ class GameScene extends Phaser.Scene{
         localStorage.setItem('enemy',JSON.stringify(enemyData));
         localStorage.setItem('points',JSON.stringify(this.points));
         localStorage.setItem('player', JSON.stringify(this.player.hitPoints));
-    }
-    morir(){
-
-        var manCamera = this.cameras.main;
-        manCamera.shake(500);
-        
-        this.time.addEvent({
-            delay: 2000,
-            callback: () =>{
-                manCamera.fadeOut(2000);
-                this.time.addEvent({
-                    delay: 4000,
-                    callback: () =>{
-                        window.location.assign('../index.html');
-                    },
-                    loop: false
-                });
-            },
-            loop: false
-        });
     }
 }
 

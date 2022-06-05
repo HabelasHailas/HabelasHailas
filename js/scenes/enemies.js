@@ -16,30 +16,17 @@ class Enemies{
     firstHit = true;
     
 
-    constructor(context, index,options){ 
-        if(options == '0'){
-            this.enemy = null;
-            this.en_index = index;
-            this.isDead = false;
-        } 
-        else{
-            this.enemy = options.enemy;
-            this.en_index = options.index;
-            this.isDead = options.dead;
-        }      
+    constructor(context, index){ 
+       
+        this.enemy = null;
+        this.en_index = index;
+        this.isDead = false;             
         this.enemyContext = context;
         this.idleTimmer = Math.floor(Math.random()* (3000 - 5000)) + 3000;
         this.en_actualState = STATE_IDLE_en;
         this.enemy_hitPoints = 3;
     }
-    getSaveDataEn(){
-        var enemyData = {
-            enemy: this.enemy,
-            index: this.en_index,
-            dead: this.isDead
-        };
-        return enemyData;
-    }
+    
     preloadEnemy(){
         this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
         this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
@@ -95,7 +82,7 @@ class Enemies{
                 this.pointwo = 935;
                 break;
             case 8: 
-                this.enemy.setPosition(409,439); 
+                this.enemy.setPosition(409,430); 
                 this.pointOne = 409;
                 this.pointwo = 794;
                 break;
@@ -133,10 +120,7 @@ class Enemies{
             repeat: 0
          });
     //#endregion
-        if(this.isDead){
-            this.en_actualState = STATE_DEAD_en;
-            this.enemy.destroy();  
-        }
+
     }     
     
     playAnim(anim){

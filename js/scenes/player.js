@@ -160,7 +160,7 @@ class Player {
                 //LOAD DEATH SCREEN
             });
         }
-        this.context.morir();
+        // this.context.morir();
     }
     movePlayer() {
         if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
@@ -275,7 +275,7 @@ class Player {
         return this.hitPoints;
     }
     updateStates(){
-        console.log("vida",this.hitPoints);
+        console.log("x",this.player.x, "y", this.player.y);
         if(!this.isDead){
             switch (this.actualState){
                 case STATE_IDLE:
