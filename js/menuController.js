@@ -28,7 +28,6 @@
 
 function start(){
 	loadpage("../html/game.html");
-	console.log("CLIIK");
 }
 function load(){
 	loadpage("../index.html");
