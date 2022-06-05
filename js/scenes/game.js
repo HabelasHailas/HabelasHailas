@@ -211,7 +211,7 @@ class GameScene extends Phaser.Scene{
     }
     winCondition(pl,col){
         if(this.canWin){
-            window.location.assign('../index.html');
+            this.victory();
         }
     }
     actualitzarVida(vidaActual, vidaMax){
@@ -234,6 +234,22 @@ class GameScene extends Phaser.Scene{
         var manCamera = this.cameras.main;
         manCamera.shake(500);
         
+        this.time.addEvent({
+            delay: 2000,
+            callback: () =>{
+                manCamera.fadeOut(2000);
+                this.time.addEvent({
+                    delay: 4000,
+                    callback: () =>{
+                        window.location.assign('../index.html');
+                    },
+                    loop: false
+                });
+            },
+            loop: false
+        });
+    }
+    victory(){
         this.time.addEvent({
             delay: 2000,
             callback: () =>{
