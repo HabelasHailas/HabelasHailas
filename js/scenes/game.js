@@ -8,8 +8,6 @@ class GameScene extends Phaser.Scene{
     jsonPlayer = localStorage.getItem("player") || 100;
     demonOptions = JSON.parse(this.jsonDemon);
     playerPoints = JSON.parse(this.jsonPlayer);
-    
-    
 
     constructor(){
         super('GameScene');
@@ -67,13 +65,13 @@ class GameScene extends Phaser.Scene{
     }
     create(){   
         //#region crear mapa tiles
-            const map = this.make.tilemap({
+            var map = this.make.tilemap({
                 key: "map",
                 tileWidth: 32, 
                 tileHeight: 32
             });
             const tilesetGrass = map.addTilesetImage("TX Tileset Grass", "tilesGrass");
-            const tilesetWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
+            var tilesetWalls = map.addTilesetImage("TX Tileset Wall", "tilesWall");
             const tilesetStruct = map.addTilesetImage("TX Struct", "tilesStruct");
             const tilesetShadow = map.addTilesetImage("TX Shadow", "tilesShadow");
             const tilesetProps = map.addTilesetImage("TX Props", "tilesProps");
@@ -83,7 +81,7 @@ class GameScene extends Phaser.Scene{
 
             
             const layerGrass = map.createLayer("Grass",tilesetGrass,0,0);
-            const layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
+            var layerWalls = map.createLayer("Walls",tilesetWalls,0,0);
             const layerStruct = map.createLayer("Struct",tilesetStruct,0,0);
             const layerShadow = map.createLayer("Shadow",tilesetShadow,0,0);
             const layerProps = map.createLayer("Props",tilesetProps,0,0);
@@ -126,11 +124,6 @@ class GameScene extends Phaser.Scene{
             this.physics.add.overlap(this.player.player,this.demon[i].demon,(player,demon)=>this.enterDemon(player,demon));
             this.physics.add.overlap(this.player.player,this.winCollision,(player,coll)=>this.winCondition(player,coll));
             
-            
-            // layerWalls.setCollisionBetween(0,166);
-            // layerWalls.setCollisionByProperty({ Collide: twrue });
-            // layerWalls.setImmovable(true)
-            this.physics.add.collider(this.player.player, layerWalls);            
             //#endregion
             
             
