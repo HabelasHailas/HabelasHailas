@@ -22,9 +22,11 @@ class Player {
     isAttacked = false;
     isCharging = false;
     collSide = '';
-    
-    velDiagonal = 113; //113
+
+
     velHorizontal = 300; //160
+    velDiagonal = this.velHorizontal * Math.sin(Math.PI/4); //113
+    
     attackProjectile;
 
     constructor(context,hp) {
