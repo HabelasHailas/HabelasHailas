@@ -1,8 +1,10 @@
 "use strict";
 
 var saveBool = false;
+
 var jsonDemon = localStorage.getItem("demon") || '0';
 console.log(jsonDemon);
+var jsonPoints = localStorage.getItem("points") || 0;
 var demonOptions = JSON.parse(jsonDemon);
 class GameScene extends Phaser.Scene{
     constructor(){
@@ -10,7 +12,7 @@ class GameScene extends Phaser.Scene{
         this.player = new Player(this);
         this.enemy = [];
         this.demon = [];
-        this.points = 0;
+        this.points = JSON.parse(jsonPoints);
         this.banner = null;
         this.canWin = false;
         this.winCollision = null;
@@ -209,6 +211,7 @@ class GameScene extends Phaser.Scene{
         var demonsData = []
         for(var i = 0; i < 4; i++) demonsData.push(this.demon[i].getSaveData());
         localStorage.setItem('demon',JSON.stringify(demonsData));
+        localStorage.setItem('points',JSON.stringify(this.points));
     }
 }
 
