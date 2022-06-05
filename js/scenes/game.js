@@ -191,7 +191,7 @@ class GameScene extends Phaser.Scene{
         }
     }
     actualitzarVida(vidaActual, vidaMax){
-        let crop = vidaActual/vidaMax * 160;
+        let crop = vidaActual/vidaMax * this.HUDVida_actual.width;
         this.HUDVida_actual.setCrop(0,0,crop,16);
     }
 }
