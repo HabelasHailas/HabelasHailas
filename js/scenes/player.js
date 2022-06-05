@@ -159,6 +159,7 @@ class Player {
                 //LOAD DEATH SCREEN
             });
         }
+        this.context.morir();
     }
     movePlayer() {
         if (this.context.key_d.isDown && this.context.key_w.isUp && this.context.key_s.isUp && this.context.key_a.isUp) {
