@@ -38,14 +38,14 @@ class Player {
 
     }
     preloadPlayer() {   
-        this.context.load.spritesheet('characterIdle', '../../sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterWalk', '../../sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterAttack', '../../sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
-        this.context.load.spritesheet('characterDamage', '../../sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterDeath', '../../sprites/character/B_witch_death_2.png', { frameWidth: 32, frameHeight: 48 });
-        this.context.load.spritesheet('characterCharge', '../../sprites/character/B_witch_charge.png', { frameWidth: 48, frameHeight: 48 });
+        this.context.load.spritesheet('characterIdle', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_idle.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterWalk', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_run.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterAttack', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_attack2.png', { frameWidth: 48, frameHeight: 48 });
+        this.context.load.spritesheet('characterDamage', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_take_damage.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterDeath', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_death_2.png', { frameWidth: 32, frameHeight: 48 });
+        this.context.load.spritesheet('characterCharge', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_charge.png', { frameWidth: 48, frameHeight: 48 });
         
-        this.context.load.spritesheet('attackProjectile', '../../sprites/character/B_witch_attack_projectile.png', { frameWidth: 80, frameHeight: 46 });
+        this.context.load.spritesheet('attackProjectile', 'https://habelashailas.github.io/HabelasHailas/sprites/character/B_witch_attack_projectile.png', { frameWidth: 80, frameHeight: 46 });
     }
     createPlayer() {
         this.player = this.context.physics.add.sprite(1604, 449, 'characterIdle').setScale(2).refreshBody();

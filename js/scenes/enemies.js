@@ -29,10 +29,10 @@ class Enemies{
     
     
     preloadEnemy(){
-        this.enemyContext.load.spritesheet('enemyIdle','../../sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
-        this.enemyContext.load.spritesheet('enemyWalk','../../sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
-        this.enemyContext.load.spritesheet('enemyHit','../../sprites/enemigos/Hyena_hurt.png', {frameWidth: 48, frameHeight: 48});
-        this.enemyContext.load.spritesheet('enemyDie','../../sprites/enemigos/Hyena_death2.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyIdle','https://habelashailas.github.io/HabelasHailas/sprites/enemigos/Hyena_idle.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyWalk','https://habelashailas.github.io/HabelasHailas/sprites/enemigos/Hyena_walk.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyHit','https://habelashailas.github.io/HabelasHailas/sprites/enemigos/Hyena_hurt.png', {frameWidth: 48, frameHeight: 48});
+        this.enemyContext.load.spritesheet('enemyDie','https://habelashailas.github.io/HabelasHailas/sprites/enemigos/Hyena_death2.png', {frameWidth: 48, frameHeight: 48});
     }
     createEnemy(){
         //#region enemy physics

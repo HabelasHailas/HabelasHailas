@@ -26,10 +26,10 @@ class Demon{
     preloadDemon(){
         
         switch(this.index){
-            case 0: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_blue.png', { frameWidth: 64, frameHeight: 64 }); break;
-            case 1: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_orange.png', { frameWidth: 64, frameHeight: 64 }); break;
-            case 2: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_purple.png', { frameWidth: 64, frameHeight: 64 }); break;
-            case 3: this.demContext.load.spritesheet('demon'+this.index, '../../sprites/demonios/demon_red.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 0: this.demContext.load.spritesheet('demon'+this.index, 'https://habelashailas.github.io/HabelasHailas/sprites/tilesets/sprites/demonios/demon_blue.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 1: this.demContext.load.spritesheet('demon'+this.index, 'https://habelashailas.github.io/HabelasHailas/sprites/tilesets/sprites/demonios/demon_orange.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 2: this.demContext.load.spritesheet('demon'+this.index, 'https://habelashailas.github.io/HabelasHailas/sprites/tilesets/sprites/demonios/demon_purple.png', { frameWidth: 64, frameHeight: 64 }); break;
+            case 3: this.demContext.load.spritesheet('demon'+this.index, 'https://habelashailas.github.io/HabelasHailas/sprites/tilesets/sprites/demonios/demon_red.png', { frameWidth: 64, frameHeight: 64 }); break;
         }  
     }
     createDemon(){

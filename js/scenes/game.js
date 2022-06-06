@@ -22,32 +22,32 @@ class GameScene extends Phaser.Scene{
        
     preload(){
         //#region load del mapa
-            this.load.image('woodSingBot','../sprites/woodSignBot.png')
-            this.load.image('woodSingTop','../sprites/woodSignTop.png')
-            this.load.image('tilesGrass','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
-            this.load.image('tilesPlant','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
-            this.load.image('tilesProps','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
-            this.load.image('tilesShadowPlants','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
-            this.load.image('tilesShadow','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
-            this.load.image('tilesStruct','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
-            this.load.image('tilesStone','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
-            this.load.image('tilesWall','../sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
+            this.load.image('woodSingBot','https://habelashailas.github.io/HabelasHailas/sprites/woodSignBot.png')
+            this.load.image('woodSingTop','https://habelashailas.github.io/HabelasHailas/sprites/woodSignTop.png')
+            this.load.image('tilesGrass','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Grass.png')
+            this.load.image('tilesPlant','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Plant.png')
+            this.load.image('tilesProps','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Props.png')
+            this.load.image('tilesShadowPlants','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow Plant.png')
+            this.load.image('tilesShadow','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Shadow.png')
+            this.load.image('tilesStruct','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Struct.png')
+            this.load.image('tilesStone','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Stone Ground.png')
+            this.load.image('tilesWall','https://habelashailas.github.io/HabelasHailas/sprites/tilesets/Pixel Art Top Down - Basic/Texture/TX Tileset Wall.png')
 
-            this.load.tilemapTiledJSON('map',"../Map/TileMap.tmj");
+            this.load.tilemapTiledJSON('map',"https://habelashailas.github.io/HabelasHailas/Map/TileMap.tmj");
         //#endregion
         
-        this.load.image('banner_ini','../sprites/banner_inicio.png');
-        this.load.image('banner_fin','../sprites/banner_final.png');
+        this.load.image('banner_ini','https://habelashailas.github.io/HabelasHailas/sprites/banner_inicio.png');
+        this.load.image('banner_fin','https://habelashailas.github.io/HabelasHailas/sprites/banner_final.png');
 
-        this.load.image('VidaMIN','../sprites/HUD/woodSignTop3.png');
-        this.load.image('VidaMAX','../sprites/HUD/woodSignTop1.png');
-        this.load.image('ManaMIN','../sprites/HUD/woodSignTop4.png');
-        this.load.image('ManaMAX','../sprites/HUD/woodSignTop2.png');
+        this.load.image('VidaMIN','https://habelashailas.github.io/HabelasHailas/sprites/HUD/woodSignTop3.png');
+        this.load.image('VidaMAX','https://habelashailas.github.io/HabelasHailas/sprites/HUD/woodSignTop1.png');
+        this.load.image('ManaMIN','https://habelashailas.github.io/HabelasHailas/sprites/HUD/woodSignTop4.png');
+        this.load.image('ManaMAX','https://habelashailas.github.io/HabelasHailas/sprites/HUD/woodSignTop2.png');
 
-        this.load.image('demon4-red','../sprites/demonios/Demon_Faces1.png');
-        this.load.image('demon3-purple','../sprites/demonios/Demon_Faces2.png');
-        this.load.image('demon1-orange','../sprites/demonios/Demon_Faces3.png');
-        this.load.image('demon0-blue','../sprites/demonios/Demon_Faces4.png');
+        this.load.image('demon4-red','https://habelashailas.github.io/HabelasHailas/sprites/demonios/Demon_Faces1.png');
+        this.load.image('demon3-purple','https://habelashailas.github.io/HabelasHailas/sprites/demonios/Demon_Faces2.png');
+        this.load.image('demon1-orange','https://habelashailas.github.io/HabelasHailas/sprites/demonios/Demon_Faces3.png');
+        this.load.image('demon0-blue','https://habelashailas.github.io/HabelasHailas/sprites/demonios/Demon_Faces4.png');
 
         this.player.preloadPlayer(); 
         for(var i = 0; i < 4; i++){
